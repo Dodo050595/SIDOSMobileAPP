@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_green_light"
+    android:background="@android:color/holo_blue_bright"
     android:textAlignment="center"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="pl.edu.s12898pjwstk.sidosmobile.MainBar"

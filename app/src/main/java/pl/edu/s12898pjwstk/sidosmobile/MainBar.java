@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import ViewModels.GrafikViewModels;
 import ViewModels.KonieViewModels;
 import ViewModels.PracownikViewModels;
 import ViewModels.VetRequestViewModels;
@@ -104,6 +105,10 @@ public class MainBar extends AppCompatActivity
         }else if (id == R.id.ZapytaniaWeterynarza) {
             fragmen.beginTransaction().replace(
                     R.id.mainpage,new VetRequestViewModels())
+                    .commit();
+        }else if(id == R.id.Grafik){
+            fragmen.beginTransaction().replace(
+                    R.id.mainpage,new GrafikViewModels())
                     .commit();
         }
 

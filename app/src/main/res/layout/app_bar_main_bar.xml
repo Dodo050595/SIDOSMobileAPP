@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context="pl.edu.s12898pjwstk.sidosmobile.MainBar">
 
-    <include layout="@layout/content_main_bar" />
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -25,9 +23,11 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/holo_red_dark"
+            android:background="@android:color/holo_blue_dark"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_main_bar" />
 
 </android.support.design.widget.CoordinatorLayout>

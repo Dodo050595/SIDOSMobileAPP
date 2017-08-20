@@ -21,6 +21,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -47,6 +48,31 @@ public class HelperMethods {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         result = sdf.format(dt);
         return result;
+    }
+
+    public static String getCurrentDateString(){
+        Date currentTime = Calendar.getInstance().getTime();
+
+        String dt = getStringFromDate(currentTime);
+
+        return dt;
+    }
+
+    public static Date AddDays(Date dt, int days){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dt);
+        calendar.add(Calendar.DAY_OF_YEAR, days);
+        dt = calendar.getTime();
+
+        return dt;
+    }
+
+    public static Date getCurrentDate(){
+        Date currentTime = Calendar.getInstance().getTime();
+
+        Date dt = getDateString(getStringFromDate(currentTime));
+
+        return dt;
     }
 
     public static String sendGet(String url) throws Exception {

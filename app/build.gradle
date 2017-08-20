@@ -6,8 +6,8 @@ android {
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "pl.edu.s12898pjwstk.sidosmobile"
-        minSdkVersion 15
-        targetSdkVersion 15
+        minSdkVersion 23
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

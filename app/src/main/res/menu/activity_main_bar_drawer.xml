@@ -12,8 +12,11 @@
             android:id="@+id/Pracownicy"
             android:title="Pracownicy" />
         <item
-            android:id="@+id/ZapytaniaWeterynarza"
-            android:title="Wezwij Weterynarza" />
+        android:id="@+id/ZapytaniaWeterynarza"
+        android:title="Wezwij Weterynarza" />
+        <item
+            android:id="@+id/Grafik"
+            android:title="Grafik" />
     </group>
 
 </menu>
