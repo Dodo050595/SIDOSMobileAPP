@@ -3,6 +3,7 @@ package ViewModels;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,9 +26,11 @@ import java.util.List;
 
 import Adapters.EmployeeAdapter;
 import HelperClasses.HelperMethods;
+import HelperClasses.Utils;
 import Models.Kon;
 import Models.Pracownik;
 import Adapters.HorseAdapter;
+import pl.edu.s12898pjwstk.sidosmobile.DisplayEmployeeActivity;
 import pl.edu.s12898pjwstk.sidosmobile.R;
 
 /**
@@ -39,7 +42,7 @@ public class PracownikViewModels extends Fragment{
     ListAdapter adapter;
     ListView listv;
     ProgressDialog progressDialog;
-    public final String getEmployee = "http://sidosapitest120170507071308.azurewebsites.net/api/employees";
+    public final String getEmployee = "http://dev-sidos.azurewebsites.net/api/employees";
 
     @Nullable
     @Override
@@ -72,6 +75,11 @@ public class PracownikViewModels extends Fragment{
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+
+                            Intent intent = new Intent(view.getContext(), DisplayEmployeeActivity.class);
+                            Pracownik prc = (Pracownik) parent.getItemAtPosition(position);
+                            intent.putExtra(Utils.employeeSer, prc);
+                            startActivity(intent);
                         }
                     });
             progressDialog.dismiss();

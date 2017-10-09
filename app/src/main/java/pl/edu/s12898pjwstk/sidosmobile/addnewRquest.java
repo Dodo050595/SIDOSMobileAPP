@@ -1,4 +1,4 @@
-package ActivityAppCompact;
+package pl.edu.s12898pjwstk.sidosmobile;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

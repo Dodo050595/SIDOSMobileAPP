@@ -6,13 +6,14 @@ package Models;
 
 public class VetRequestSEND {
 
-    private String description;
+    private String NoteAboutReport;
     private String injuryLocation;
-    private String priority;
+    private String descriptionAboutPlaceWhereHorseWasInjured;
     private int horseId;
-    private String employeeId;
+    private String veterinaryId;
     private String userId;
     private String status;
+    private String picture;
 
     public String getStatus() {
         return status;
@@ -30,21 +31,29 @@ public class VetRequestSEND {
         this.userId = userId;
     }
 
-    public VetRequestSEND(String description, String injuryLocation, String priority, String userId, int horseId, String employeeId,String _status) {
-        this.description = description;
+    public VetRequestSEND(String NoteAboutReport, String injuryLocation, String descriptionAboutPlaceWhereHorseWasInjured, int horseId, String veterinaryId,String _status,String picture) {
+        this.NoteAboutReport = NoteAboutReport;
         this.injuryLocation = injuryLocation;
-        this.priority = priority;
-        this.userId = userId;
+        this.descriptionAboutPlaceWhereHorseWasInjured = descriptionAboutPlaceWhereHorseWasInjured;
         this.horseId = horseId;
-        this.employeeId = employeeId;
+        this.veterinaryId = veterinaryId;
+        this.picture = picture;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public String getDescription() {
-        return description;
+        return NoteAboutReport;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.NoteAboutReport = description;
     }
 
     public String getInjuryLocation() {
@@ -55,12 +64,12 @@ public class VetRequestSEND {
         this.injuryLocation = injuryLocation;
     }
 
-    public String getPriority() {
-        return priority;
+    public String getdescriptionAboutPlaceWhereHorseWasInjured() {
+        return descriptionAboutPlaceWhereHorseWasInjured;
     }
 
-    public void setPriority(String priority) {
-        this.priority = priority;
+    public void setdescriptionAboutPlaceWhereHorseWasInjured(String descriptionAboutPlaceWhereHorseWasInjured) {
+        this.descriptionAboutPlaceWhereHorseWasInjured = descriptionAboutPlaceWhereHorseWasInjured;
     }
 
     public int getHorseId() {
@@ -72,10 +81,10 @@ public class VetRequestSEND {
     }
 
     public String getEmployeeId() {
-        return employeeId;
+        return veterinaryId;
     }
 
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
+    public void setveterinaryId(String employeeId) {
+        this.veterinaryId = employeeId;
     }
 }

@@ -1,13 +1,19 @@
-package AddVetRequest;
+package ViewModels;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +29,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +48,8 @@ import Models.VetRequestSEND;
 import ViewModels.VetRequestViewModels;
 import pl.edu.s12898pjwstk.sidosmobile.R;
 
+import static android.R.attr.data;
+
 /**
  * Created by Dominik Deja on 28.05.2017.
  */
@@ -48,9 +59,38 @@ public class AddRequestFragment extends Fragment{
     ArrayList<Pracownik> pracownicy;
     ArrayList<Kon> konie;
     int KonID = 0;
+    String Picture = "";
     String WeterynarzID = "";
     Gson gSon=  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
     View myView;
+    public static final int GET_FROM_GALLERY = 3;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        //Detects request codes
+        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+            Uri selectedImage = data.getData();
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), selectedImage);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream .toByteArray();
+                Picture = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                System.out.println("Hello");
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     @Nullable
     @Override
@@ -58,6 +98,21 @@ public class AddRequestFragment extends Fragment{
         progressDialog = ProgressDialog.show(getActivity(), "",
                 "Loading. Please wait...", true);
         myView = inflater.inflate(R.layout.requestaddfragment, container, false);
+
+        Button uploadPHotoBTN = (Button) myView.findViewById(R.id.UploadPhotoButton);
+
+        uploadPHotoBTN.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+//                final Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+////to get image and videos, I used a */"
+//                galleryIntent.setType("*/*");
+//                startActivityForResult(galleryIntent, 1);
+
+                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+
+
+            }
+            });
 
         Button btn = (Button) myView.findViewById(R.id.addRequest_button);
         btn.setOnClickListener(new Button.OnClickListener() {
@@ -72,9 +127,10 @@ public class AddRequestFragment extends Fragment{
                     String priority = ((Spinner) myView.findViewById(R.id.priority_spinnerLay)).getSelectedItem().toString();
                     String description = ((EditText) myView.findViewById(R.id.description_edit)).getText().toString();
                     if (KonID != 0 && !WeterynarzID.equals("")) {
-                        VetRequestSEND vt = new VetRequestSEND(description, injuryLocation, priority, WeterynarzID ,KonID, WeterynarzID,VetRequest.HealthProblemStatus.Received.toString());
+                        VetRequestSEND vt = new VetRequestSEND(description, injuryLocation, priority,KonID, WeterynarzID,VetRequest.HealthProblemStatus.Received.toString(),Picture);
                         //Type listType = new TypeToken<VetRequest>(){}.getType();
                         String body = gSon.toJson(vt, VetRequestSEND.class);
+                        System.out.println(body);
                         new AsyncCreateVetRequest(Utils.VetRequestAPI,body).execute();
                     } else{
                         Toast.makeText(getActivity(), "Prosze wybrac Weterynarza i Konia!",
@@ -101,6 +157,12 @@ public class AddRequestFragment extends Fragment{
 
         return myView;
     }
+
+
+
+
+
+
     public class AsyncGetRequest extends AsyncTask<Void,Void,String>{
         AutoCompleteTextView horse_auto;
         AutoCompleteTextView vet_auto;

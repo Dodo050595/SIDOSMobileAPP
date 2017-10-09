@@ -11,11 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,13 +23,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import Adapters.EmployeeAdapter;
 import Adapters.VetRequestAdapter;
 import HelperClasses.HelperMethods;
-import Models.Kon;
-import Models.Pracownik;
+import HelperClasses.Utils;
 import Models.VetRequest;
-import pl.edu.s12898pjwstk.sidosmobile.DisplayHorseActivity;
 import pl.edu.s12898pjwstk.sidosmobile.R;
 import pl.edu.s12898pjwstk.sidosmobile.addnewRquest;
 
@@ -44,7 +39,6 @@ public class VetRequestViewModels extends Fragment {
     ListAdapter adapter;
     ListView listv;
     ProgressDialog progressDialog;
-    public final String getVetRequest = "http://sidosapitest120170507071308.azurewebsites.net/api/healthreportissues";
 
     @Nullable
     @Override
@@ -107,7 +101,7 @@ public class VetRequestViewModels extends Fragment {
             try {
 
                 Gson gSon=  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
-                vetRequests = gSon.fromJson(HelperMethods.sendGet(getVetRequest), listType);
+                vetRequests = gSon.fromJson(HelperMethods.sendGet(Utils.VetRequestAPI), listType);
 
 
             } catch (Exception e) {

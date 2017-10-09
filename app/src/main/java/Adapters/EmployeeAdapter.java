@@ -44,7 +44,7 @@ public class EmployeeAdapter extends ArrayAdapter<Pracownik>{
 
         nazwa.setText("Imie: " + pracownik.getFirstName());
         pseudonim.setText("Nazwisko: " + pracownik.getLastName());
-        data_urodzenia.setText("Data Urodzenia: " + HelperMethods.getStringFromDate(pracownik.getHireDate()));
+        data_urodzenia.setText("Data Urodzenia: " + HelperMethods.getStringFromDate(pracownik.getBirthDate()));
         imgView.setImageResource(R.drawable.pracownik);
 
         return customView;

@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="217dp"
                 android:layout_marginBottom="20dp"
-                app:srcCompat="@drawable/kon" />
+                app:srcCompat="@drawable/pracownik" />
 
             <TextView
                 android:id="@+id/horsedsp_val1"
@@ -42,7 +42,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/horsedsp_val4"
+                android:id="@+id/horsedsp_val3"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="0.11"
@@ -50,13 +50,6 @@
                 android:textAlignment="textStart"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/horsedsp_val3"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:text="TextView"
-                android:textAlignment="textStart"
-                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 

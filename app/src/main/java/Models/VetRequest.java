@@ -27,40 +27,40 @@ public class VetRequest {
 
     private String id;
 
-    private Pracownik employeeResponsible;
+    private Pracownik veterinary;
 
     private Kon horse;
 
-    private User submittedBy;
+    private User reportedBy;
 
     private Date requestDate;
 
     private String descripton;
 
-    private String injuryLocation;
+    private String descriptionAboutPlaceWhereHorseWasInjured;
 
     private String priority;
 
     private String status;
 
-    public VetRequest(String id, Pracownik employeeResponsible, Kon horse, User submittedBy, Date requestDate, String descripton, String injuryLocation, String priority, String status) {
+    public VetRequest(String id, Pracownik employeeResponsible, Kon horse, User submittedBy, Date requestDate, String descripton, String descriptionAboutPlaceWhereHorseWasInjured, String priority, String status) {
         this.id = id;
-        this.employeeResponsible = employeeResponsible;
+        this.veterinary = employeeResponsible;
         this.horse = horse;
-        this.submittedBy = submittedBy;
+        this.reportedBy = submittedBy;
         this.requestDate = requestDate;
         this.descripton = descripton;
-        this.injuryLocation = injuryLocation;
+        this.descriptionAboutPlaceWhereHorseWasInjured = descriptionAboutPlaceWhereHorseWasInjured;
         this.priority = priority;
         this.status = status;
     }
 
-    public VetRequest( Pracownik employeeResponsible, Kon horse, Date requestDate, String descripton, String injuryLocation, String priority) {
-        this.employeeResponsible = employeeResponsible;
+    public VetRequest( Pracownik employeeResponsible, Kon horse, Date requestDate, String descripton, String descriptionAboutPlaceWhereHorseWasInjured, String priority) {
+        this.veterinary = employeeResponsible;
         this.horse = horse;
         this.requestDate = requestDate;
         this.descripton = descripton;
-        this.injuryLocation = injuryLocation;
+        this.descriptionAboutPlaceWhereHorseWasInjured = descriptionAboutPlaceWhereHorseWasInjured;
         this.priority = priority;
     }
 
@@ -72,12 +72,12 @@ public class VetRequest {
         this.id = id;
     }
 
-    public Pracownik getEmployeeResponsible() {
-        return employeeResponsible;
+    public Pracownik getveterinary() {
+        return veterinary;
     }
 
     public void setEmployeeResponsible(Pracownik employeeResponsible) {
-        this.employeeResponsible = employeeResponsible;
+        this.veterinary = employeeResponsible;
     }
 
     public Kon getHorse() {
@@ -88,12 +88,12 @@ public class VetRequest {
         this.horse = horse;
     }
 
-    public User getSubmittedBy() {
-        return submittedBy;
+    public User getreportedBy() {
+        return reportedBy;
     }
 
-    public void setSubmittedBy(User submittedBy) {
-        this.submittedBy = submittedBy;
+    public void setreportedBy(User submittedBy) {
+        this.reportedBy = submittedBy;
     }
 
     public Date getRequestDate() {
@@ -112,12 +112,12 @@ public class VetRequest {
         this.descripton = descripton;
     }
 
-    public String getInjuryLocation() {
-        return injuryLocation;
+    public String getdescriptionAboutPlaceWhereHorseWasInjured() {
+        return descriptionAboutPlaceWhereHorseWasInjured;
     }
 
-    public void setInjuryLocation(String injuryLocation) {
-        this.injuryLocation = injuryLocation;
+    public void setdescriptionAboutPlaceWhereHorseWasInjured(String injuryLocation) {
+        this.descriptionAboutPlaceWhereHorseWasInjured = injuryLocation;
     }
 
     public String getPriority() {

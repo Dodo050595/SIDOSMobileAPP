@@ -41,8 +41,8 @@ public class VetRequestAdapter extends ArrayAdapter<VetRequest> {
 
 
         nazwa.setText("Kon: " + ((singleHorse.getHorse() == null) ? "" : singleHorse.getHorse().getName()));
-        pseudonim.setText("Weterynarz: " + ((singleHorse.getEmployeeResponsible()==null) ? "" : singleHorse.getEmployeeResponsible().toString()));
-        data_urodzenia.setText("submited by : " + ((singleHorse.getSubmittedBy() == null) ? "" : singleHorse.getSubmittedBy().toString()));
+        pseudonim.setText("Weterynarz: " + ((singleHorse.getveterinary()==null) ? "" : singleHorse.getveterinary().toString()));
+        data_urodzenia.setText("Zgłoszone przez : " + ((singleHorse.getreportedBy() == null) ? "" : singleHorse.getreportedBy().toString()));
         imgView.setImageResource(R.drawable.badanie_konia);
 
         return customView;

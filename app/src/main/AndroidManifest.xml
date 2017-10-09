@@ -23,7 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".DisplayHorseActivity" />
-        <activity android:name=".addnewRquest"></activity>
+        <activity android:name=".addnewRquest" />
+        <activity android:name=".DisplayEmployeeActivity"></activity>
     </application>
 
 </manifest>

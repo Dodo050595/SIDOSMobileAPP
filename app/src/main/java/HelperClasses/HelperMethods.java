@@ -3,6 +3,8 @@ package HelperClasses;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import org.apache.http.HttpResponse;
@@ -46,7 +48,9 @@ public class HelperMethods {
     public static String getStringFromDate(Date dt){
         String result = "";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        result = sdf.format(dt);
+        if(dt != null) {
+            result = sdf.format(dt);
+        }
         return result;
     }
 
@@ -107,6 +111,7 @@ public class HelperMethods {
 
         //add reuqest header
         con.setRequestMethod("POST");
+
         con.setRequestProperty("Content-Type", "application/json");
 
         // Send post request
@@ -165,4 +170,23 @@ public class HelperMethods {
                 });
         alertDialog.show();
     }
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            Log.e("src",src);
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            Log.e("Bitmap","returned");
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("Exception",e.getMessage());
+            return null;
+        }
+    }
+
 }

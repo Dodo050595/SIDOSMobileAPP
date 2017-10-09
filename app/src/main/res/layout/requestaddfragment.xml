@@ -4,11 +4,12 @@
     android:id="@+id/RequestAddFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
     android:orientation="vertical">
 
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="349dp"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -113,12 +114,18 @@
                 android:layout_marginTop="10dp"
                 android:background="@android:color/holo_blue_dark" />
 
+            <Button
+                android:id="@+id/UploadPhotoButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Załąduj Zdjęcie" />
+
             <TextView
                 android:id="@+id/Description"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
-                android:text="Description"
+                android:text="Opis"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
@@ -145,7 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="30dp"
-                android:text="Add vet request" />
+                android:text="Zapisz" />
 
         </LinearLayout>
     </ScrollView>

@@ -11,26 +11,20 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 import HelperClasses.HelperMethods;
+import HelperClasses.Utils;
 import Models.Kon;
 import Adapters.HorseAdapter;
 import pl.edu.s12898pjwstk.sidosmobile.DisplayHorseActivity;
@@ -48,8 +42,7 @@ public class KonieViewModels extends Fragment {
     ListAdapter adapter;
     Spinner spin;
     ProgressDialog progressDialog;
-    public static final String konSer = "Kon";
-    private String URLHorseWebServie = "http://sidosapitest120170507071308.azurewebsites.net/api/horses";
+
 
     @Nullable
     @Override
@@ -142,7 +135,7 @@ public class KonieViewModels extends Fragment {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent intent = new Intent(view.getContext(), DisplayHorseActivity.class);
                             Kon kn = (Kon) parent.getItemAtPosition(position);
-                            intent.putExtra(konSer,kn);
+                            intent.putExtra(Utils.konSer,kn);
                             startActivity(intent);
                         }
                     });
@@ -161,7 +154,7 @@ public class KonieViewModels extends Fragment {
 
                    // JSONArray arrayHorseList = new JSONArray(HelperMethods.sendGet(URLHorseWebServie));
                     Gson gSon=  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
-                    List<Kon> konie = gSon.fromJson(HelperMethods.sendGet(URLHorseWebServie), listType);
+                    List<Kon> konie = gSon.fromJson(HelperMethods.sendGet(Utils.HorseAPI), listType);
 //                    List<Kon> konie = new Gson().fromJson(HelperMethods.sendGet(URLHorseWebServie),Kon.class);
 //                                        List<Kon> konie = (List<Kon>) arrayHorseList;
 //                    for (int i = 0; i < arrayHorseList.length(); i++) {
@@ -188,7 +181,7 @@ public class KonieViewModels extends Fragment {
             else if(spinnerValue.equals("Name")){
                 try {
                     Gson gSon=  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
-                    List<Kon> konie = gSon.fromJson(HelperMethods.sendGet("http://sidosapitest120170507071308.azurewebsites.net/api/horses/findbyname/" + QueryText), listType);
+                    List<Kon> konie = gSon.fromJson(HelperMethods.sendGet(Utils.HorseAPIGetByName + QueryText), listType);
                     adapter = new HorseAdapter(cont, (ArrayList<Kon>) konie);
                     listv = ls;
                 } catch (Exception e) {
@@ -197,7 +190,7 @@ public class KonieViewModels extends Fragment {
             }else if(spinnerValue.equals("Character")){
                 try{
                     Gson gSon=  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
-                    List<Kon> konie = gSon.fromJson(HelperMethods.sendGet("http://sidosapitest120170507071308.azurewebsites.net/api/horses/findbycharacter/" + QueryText), listType);
+                    List<Kon> konie = gSon.fromJson(HelperMethods.sendGet(Utils.HorseAPIGetByCharacter + QueryText), listType);
                     adapter = new HorseAdapter(cont,(ArrayList<Kon>) konie);
                     listv = ls;
                 } catch (Exception e) {

@@ -1,12 +1,13 @@
 package Models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Dominik Deja on 07.05.2017.
  */
 
-public class Pracownik {
+public class Pracownik implements Serializable {
 
     private String id;
     private String firstName;
