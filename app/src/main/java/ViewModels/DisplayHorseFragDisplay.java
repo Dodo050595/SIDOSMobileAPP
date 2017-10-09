@@ -1,4 +1,4 @@
-package pl.edu.s12898pjwstk.sidosmobile;
+package Adapters;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import Adapters.EmployeeAdapter;
 import HelperClasses.HelperMethods;
 import Models.Kon;
 import Models.Pracownik;
+import pl.edu.s12898pjwstk.sidosmobile.R;
 
 /**
  * Created by Dominik Deja on 14.05.2017.

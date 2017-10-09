@@ -1,10 +1,12 @@
-package pl.edu.s12898pjwstk.sidosmobile;
+package ActivityAppCompact;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import HelperClasses.Utils;
 import Models.Kon;
-import ViewModels.KonieViewModels;
+import ViewModels.DisplayHorseFragDisplay;
+import pl.edu.s12898pjwstk.sidosmobile.R;
 
 public class DisplayHorseActivity extends AppCompatActivity {
 
@@ -13,7 +15,6 @@ public class DisplayHorseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_horse);
-        Kon model = (Kon) getIntent().getSerializableExtra(KonieViewModels.konSer);
 
 
         fragmen.beginTransaction().replace(

@@ -31,6 +31,7 @@ import java.util.List;
 
 import Adapters.HorseFilterAdapter;
 import HelperClasses.HelperMethods;
+import HelperClasses.Utils;
 import Models.Kon;
 import Models.Pracownik;
 import Models.VetRequest;
@@ -49,9 +50,6 @@ public class AddRequestFragment extends Fragment{
     int KonID = 0;
     String WeterynarzID = "";
     Gson gSon=  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
-    public final String getVetRequest = "http://sidosapitest120170507071308.azurewebsites.net/api/healthreportissues";
-    public final String getVet = "http://sidosapitest120170507071308.azurewebsites.net/api/employees";
-    public final String getHorse = "http://sidosapitest120170507071308.azurewebsites.net/api/horses";
     View myView;
 
     @Nullable
@@ -77,7 +75,7 @@ public class AddRequestFragment extends Fragment{
                         VetRequestSEND vt = new VetRequestSEND(description, injuryLocation, priority, WeterynarzID ,KonID, WeterynarzID,VetRequest.HealthProblemStatus.Received.toString());
                         //Type listType = new TypeToken<VetRequest>(){}.getType();
                         String body = gSon.toJson(vt, VetRequestSEND.class);
-                        new AsyncCreateVetRequest(getVetRequest,body).execute();
+                        new AsyncCreateVetRequest(Utils.VetRequestAPI,body).execute();
                     } else{
                         Toast.makeText(getActivity(), "Prosze wybrac Weterynarza i Konia!",
                                 Toast.LENGTH_LONG).show();
@@ -163,9 +161,9 @@ public class AddRequestFragment extends Fragment{
             try {
                 // JSONArray arrayHorseList = new JSONArray(HelperMethods.sendGet(URLHorseWebServie));
 
-                pracownicy = gSon.fromJson(HelperMethods.sendGet(getVet), listType);
+                pracownicy = gSon.fromJson(HelperMethods.sendGet(Utils.EmployeesAPI), listType);
                 listType = new TypeToken<ArrayList<Kon>>(){}.getType();
-                konie = gSon.fromJson(HelperMethods.sendGet(getHorse), listType);
+                konie = gSon.fromJson(HelperMethods.sendGet(Utils.HorseAPI), listType);
                 vet_adapter = new ArrayAdapter<Pracownik>(cont,
                         android.R.layout.simple_spinner_dropdown_item, pracownicy);
 

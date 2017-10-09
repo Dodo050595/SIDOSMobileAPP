@@ -1,11 +1,10 @@
-package pl.edu.s12898pjwstk.sidosmobile;
+package ActivityAppCompact;
 
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import AddVetRequest.AddRequestFragment;
-import ViewModels.KonieViewModels;
+import ViewModels.AddRequestFragment;
+import pl.edu.s12898pjwstk.sidosmobile.R;
 
 public class addnewRquest extends AppCompatActivity {
 
