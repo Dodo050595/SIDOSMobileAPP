@@ -1,6 +1,6 @@
 package ViewModels;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -43,11 +43,15 @@ public class DisplayHorseFragDisplay extends Fragment{
             TextView val2 = (TextView) myView.findViewById(R.id.horsedsp_val2);
             TextView val3 = (TextView) myView.findViewById(R.id.horsedsp_val3);
             TextView val4 = (TextView) myView.findViewById(R.id.horsedsp_val4);
+            TextView val5 = (TextView) myView.findViewById(R.id.horsedsp_val5);
+            TextView val6 = (TextView) myView.findViewById(R.id.horsedsp_val6);
 
             val1.setText("Imie: " + kon.getName());
             val2.setText("Charakter: " + kon.getCharacter());
             val3.setText("Data Urodzenia: " + HelperMethods.getStringFromDate(kon.getDateOfBirth()));
             val4.setText("Wysokosc: " + kon.getHeight());
+            val5.setText("Status: " + kon.getHealthStatus());
+            val6.setText("Plec: " +  kon.getSexType());
 
                 if(kon.getMainPicture() != null && kon.getMainPicture() != "" )
                     Picasso.with(getContext()).load(kon.getMainPicture()).into(imgHRS);

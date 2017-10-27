@@ -17,6 +17,9 @@
         <item
             android:id="@+id/Grafik"
             android:title="Grafik" />
+        <item
+            android:id="@+id/Wyloguj"
+            android:title="Wyloguj" />
     </group>
 
 </menu>

@@ -5,7 +5,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.renderscript.ScriptGroup;
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -21,12 +25,15 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import Models.UserTokens;
 
 /**
  * Created by Dominik Deja on 07.05.2017.
@@ -86,6 +93,9 @@ public class HelperMethods {
 
         con.setRequestProperty("Content-Type", "application/json;odata=verbose");
         con.setRequestProperty("Accept", "application/json;odata=verbose");
+        if(Utils.UserTokenCls != null) {
+            con.setRequestProperty("Authorization", Utils.UserTokenCls.getToken_type() + " " + Utils.UserTokenCls.getAccess_token());
+        }
         // optional default is GET
         con.setRequestMethod("GET");
 
@@ -113,6 +123,9 @@ public class HelperMethods {
         con.setRequestMethod("POST");
 
         con.setRequestProperty("Content-Type", "application/json");
+        if(Utils.UserTokenCls != null) {
+            con.setRequestProperty("Authorization", Utils.UserTokenCls.getToken_type() + " " + Utils.UserTokenCls.getAccess_token());
+        }
 
         // Send post request
         con.setDoOutput(true);
@@ -189,4 +202,59 @@ public class HelperMethods {
         }
     }
 
+    public static UserTokens sendPostToken(String username, String password) throws Exception {
+
+        String data = URLEncoder.encode("username", "UTF-8")
+                + "=" + URLEncoder.encode(username, "UTF-8");
+
+        data += "&" + URLEncoder.encode("password", "UTF-8") + "="
+                + URLEncoder.encode(password, "UTF-8");
+        data += "&" + URLEncoder.encode("grant_type", "UTF-8") + "="
+                + URLEncoder.encode("password", "UTF-8");
+
+        URL obj = new URL(Utils.GetTokenUUser);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        //add reuqest header
+        con.setRequestMethod("POST");
+
+        con.setRequestProperty("Content-Type", "x-www-form-urlencoded");
+        //con.setRequestProperty("Content-Type", "application/json");
+
+        // Send post request
+        con.setDoOutput(true);
+        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        wr.writeBytes(data);
+        wr.flush();
+        wr.close();
+
+        int responseCode = con.getResponseCode();
+        if(responseCode >= 400 && responseCode < 600) {
+            return null;
+        }
+        String a = con.getResponseMessage();
+        InputStream b = con.getInputStream();
+        String c = b.toString();
+        System.out.println("Post parameters : " + data);
+        System.out.println("Response Code : " + responseCode);
+
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        //print result
+        System.out.println(response.toString());
+
+        Gson gSon=  new GsonBuilder().create();
+        UserTokens usTok = gSon.fromJson(response.toString(), UserTokens.class);
+
+         return usTok;
+    }
 }

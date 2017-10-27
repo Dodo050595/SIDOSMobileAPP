@@ -17,7 +17,7 @@ public class VetRequest {
     }
 
     public enum HealthProblemStatus
-    {
+            {
         Accepted,
         Rejected,
         Received,

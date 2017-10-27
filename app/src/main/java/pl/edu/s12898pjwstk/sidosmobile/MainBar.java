@@ -1,5 +1,7 @@
 package pl.edu.s12898pjwstk.sidosmobile;
 
+import android.content.ClipData;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,7 +15,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import HelperClasses.Utils;
 import ViewModels.GrafikViewModels;
 import ViewModels.KonieViewModels;
 import ViewModels.PracownikViewModels;
@@ -47,6 +51,20 @@ public class MainBar extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        View hView =  navigationView.getHeaderView(0);
+        TextView txView = (TextView) hView.findViewById(R.id.UserNameTItle);
+        if(Utils.UserTokenCls != null) {
+            txView.setText(Utils.UserTokenCls.getUserName());
+        }else{
+            txView.setText("Gość");
+            navigationView.getMenu().getItem(3).setVisible(false);
+            navigationView.getMenu().getItem(4).setVisible(false);
+        }
+
+
+
         fragmen.beginTransaction().replace(
                 R.id.mainpage,new MainPageFragment())
                 .commit();
@@ -66,6 +84,11 @@ public class MainBar extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_bar, menu);
+
+        if(Utils.UserTokenCls == null){
+
+        }
+
         return true;
     }
 
@@ -90,6 +113,7 @@ public class MainBar extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
        // android.app.FragmentManager fragmen = getFragmentManager();
+
         if (id == R.id.Pracownicy) {
             fragmen.beginTransaction().replace(
                     R.id.mainpage,new PracownikViewModels())
@@ -110,6 +134,11 @@ public class MainBar extends AppCompatActivity
             fragmen.beginTransaction().replace(
                     R.id.mainpage,new GrafikViewModels())
                     .commit();
+        }else if(id == R.id.Wyloguj){
+            Utils.UserTokenCls = null;
+            Intent intent = new Intent(getApplicationContext(), loginuseractivity.class);
+            MainBar.this.startActivity(intent);
+            MainBar.this.finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
