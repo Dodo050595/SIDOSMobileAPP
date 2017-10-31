@@ -54,7 +54,7 @@ public class DisplayHorseFragDisplay extends Fragment{
             val6.setText("Plec: " +  kon.getSexType());
 
                 if(kon.getMainPicture() != null && kon.getMainPicture() != "" )
-                    Picasso.with(getContext()).load(kon.getMainPicture()).into(imgHRS);
+                    Picasso.with(getContext()).load(Utils.URLFORAPI + kon.getMainPicture()).into(imgHRS);
                 else
                     imgHRS.setImageResource(R.drawable.ic_menu_camera);
             return myView;

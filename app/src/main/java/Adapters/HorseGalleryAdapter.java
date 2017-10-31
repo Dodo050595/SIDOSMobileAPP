@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import HelperClasses.Utils;
 import Models.VetRequest;
 import pl.edu.s12898pjwstk.sidosmobile.R;
 
@@ -31,7 +32,7 @@ public class HorseGalleryAdapter  extends ArrayAdapter<String> {
         LayoutInflater buckysInflater = LayoutInflater.from(getContext());
         View customView = buckysInflater.inflate(R.layout.custom_row_image,parent,false);
 
-        String url = getItem(position);
+        String url = Utils.URLFORAPI + getItem(position);
 
         ImageView imgView = (ImageView) customView.findViewById(R.id.imgViewCustomRow);
 

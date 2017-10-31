@@ -37,10 +37,12 @@ public class GalleryHorseDisplayFrag extends Fragment{
 
         ListView ls = (ListView) myView.findViewById(R.id.galleryListView);
 
-        HorseGalleryadapter = ArrayAdapter.createFromResource(getContext(), R.array.planets_array, android.R.layout.simple_spinner_item);
-        HorseGalleryadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapter = new HorseGalleryAdapter(getContext(), (ArrayList<String>) kon.getPictureGalleryUrls());
-        ls.setAdapter(adapter);
+        if(kon.getPictureGalleryUrls() != null) {
+            HorseGalleryadapter = ArrayAdapter.createFromResource(getContext(), R.array.planets_array, android.R.layout.simple_spinner_item);
+            HorseGalleryadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            adapter = new HorseGalleryAdapter(getContext(), (ArrayList<String>) kon.getPictureGalleryUrls());
+            ls.setAdapter(adapter);
+        }
 
 
         return myView;

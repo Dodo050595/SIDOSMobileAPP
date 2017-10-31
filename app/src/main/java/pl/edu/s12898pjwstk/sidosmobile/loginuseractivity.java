@@ -9,11 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import HelperClasses.DatabaseHelper;
 import HelperClasses.HelperMethods;
 import HelperClasses.Utils;
 import Models.UserTokens;
@@ -22,11 +24,22 @@ public class loginuseractivity extends AppCompatActivity {
 
     View myView;
     public ProgressDialog progressDialog;
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loginuseractivity);
+
+        db = HelperMethods.getDatabaseObject(this.getApplicationContext());
+        Utils.UserTokenCls = db.getUserTokenSQL();
+        if(Utils.UserTokenCls != null){
+            Intent intent = new Intent(loginuseractivity.this.getApplicationContext(), MainBar.class);
+            loginuseractivity.this.startActivity(intent);
+            loginuseractivity.this.finish();
+            return;
+        }
+
 
         EditText username = (EditText) findViewById(R.id.editText_Username);
         EditText password = (EditText) findViewById(R.id.editText_password);
@@ -53,12 +66,13 @@ public class loginuseractivity extends AppCompatActivity {
         btLogIn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+                CheckBox savedataCHK = (CheckBox) findViewById(R.id.CHB_SavePassword);
                 EditText username = (EditText) findViewById(R.id.editText_Username);
                 EditText password = (EditText) findViewById(R.id.editText_password);
 
                 progressDialog = ProgressDialog.show(loginuseractivity.this, "",
                         "Loading. Please wait...", true);
-                new AsyncGetUserToken(username.getText().toString(),password.getText().toString(),progressDialog,loginuseractivity.this,loginuseractivity.this.getApplicationContext()).execute();
+                new AsyncGetUserToken(username.getText().toString(),password.getText().toString(),savedataCHK.isChecked(),progressDialog,loginuseractivity.this,loginuseractivity.this.getApplicationContext(),db).execute();
 
 
 
@@ -74,15 +88,19 @@ class AsyncGetUserToken extends AsyncTask<Void,Void,Void> {
     String password;
     ProgressDialog prg;
     Activity act;
+    DatabaseHelper db;
     Context cont;
     String Token;
+    Boolean saveData;
 
-    public AsyncGetUserToken(String username,String password,ProgressDialog prg,Activity act,Context cont){
+    public AsyncGetUserToken(String username,String password,Boolean saveData,ProgressDialog prg,Activity act,Context cont,DatabaseHelper db){
         this.prg = prg;
         this.username = username;
         this.password = password;
         this.act = act;
         this.cont = cont;
+        this.saveData = saveData;
+        this.db = db;
     }
 
     @Override
@@ -114,7 +132,15 @@ class AsyncGetUserToken extends AsyncTask<Void,Void,Void> {
 
         try {
            UserTokens Ustk = HelperMethods.sendPostToken(username,password);
+
+                if(saveData && Ustk != null){
+                    Ustk.setEncryptedPass(HelperMethods.encryotPassword(password));
+                    db.insertData(Ustk);
+
+
+            }
             Utils.UserTokenCls = Ustk;
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -3,6 +3,8 @@ package Models;
 import java.io.Serializable;
 import java.util.Date;
 
+import HelperClasses.Utils;
+
 /**
  * Created by Dominik Deja on 07.05.2017.
  */
@@ -18,8 +20,9 @@ public class Pracownik implements Serializable {
     private String email;
     private Date birthDate;
     private String phoneNmber;
+    private String profilePicture;
 
-    public Pracownik(String id, String firstName, String lastName, Date hireDate, String employeeType, String userName, String email, Date birthDate, String phoneNmber) {
+    public Pracownik(String id, String firstName, String lastName, Date hireDate, String employeeType, String userName, String email, Date birthDate, String phoneNmber,String profilePicture) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -29,6 +32,7 @@ public class Pracownik implements Serializable {
         this.email = email;
         this.birthDate = birthDate;
         this.phoneNmber = phoneNmber;
+        this.profilePicture = profilePicture;
     }
 
     public String getId() {
@@ -105,5 +109,13 @@ public class Pracownik implements Serializable {
 
     public String toString(){
         return getFirstName() + " " + getLastName();
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }

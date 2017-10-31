@@ -73,18 +73,20 @@ public class VetRequestViewModels extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
-            adapter = new VetRequestAdapter(myView.getContext(),(ArrayList<VetRequest>) vetRequests);
-            listv = (ListView) myView.findViewById(R.id.VetRequestList);
-            listv.setAdapter(adapter);
+            if(vetRequests.size() > 0) {
+                adapter = new VetRequestAdapter(myView.getContext(), (ArrayList<VetRequest>) vetRequests);
+                listv = (ListView) myView.findViewById(R.id.VetRequestList);
+                listv.setAdapter(adapter);
 
-            listv.setOnItemClickListener(
-                    new AdapterView.OnItemClickListener(){
+                listv.setOnItemClickListener(
+                        new AdapterView.OnItemClickListener() {
 
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                        }
-                    });
+                            }
+                        });
+            }
             progressDialog.dismiss();
             super.onPostExecute(s);
         }
@@ -105,7 +107,7 @@ public class VetRequestViewModels extends Fragment {
 
 
             } catch (Exception e) {
-                e.printStackTrace();
+               // e.printStackTrace();
             }
 
             return "Done";

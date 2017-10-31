@@ -11,12 +11,22 @@ public class UserTokens implements Serializable{
     private String access_token;
     private String token_type;
     private String userName;
+    private String EncryptedPass;
 
 
-    public UserTokens(String access_token, String token_type, String userName) {
+    public UserTokens(String access_token, String token_type, String userName,String EncryptedPass) {
         this.access_token = access_token;
         this.token_type = token_type;
         this.userName = userName;
+        this.EncryptedPass = EncryptedPass;
+    }
+
+    public String getEncryptedPass() {
+        return EncryptedPass;
+    }
+
+    public void setEncryptedPass(String encryptedPass) {
+        EncryptedPass = encryptedPass;
     }
 
     public String getAccess_token() {

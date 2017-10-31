@@ -6,7 +6,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import HelperClasses.HelperMethods;
 import HelperClasses.Utils;
@@ -29,11 +32,17 @@ public class DisplayEmployeeFragDisplay extends Fragment {
         TextView val1 = (TextView) myView.findViewById(R.id.horsedsp_val1);
         TextView val2 = (TextView) myView.findViewById(R.id.horsedsp_val2);
         TextView val3 = (TextView) myView.findViewById(R.id.horsedsp_val3);
-
+        ImageView imgView = (ImageView) myView.findViewById(R.id.imageView);
 
         val1.setText("Imie: " + prc.getFirstName());
         val2.setText("Nazwisko: " + prc.getLastName());
         val3.setText("Data Urodzenia: " + HelperMethods.getStringFromDate(prc.getBirthDate()));
+
+        if(prc.getProfilePicture() != null && prc.getProfilePicture() != "")
+            Picasso.with(getContext()).load(Utils.URLFORAPI + prc.getProfilePicture()).into(imgView);
+        else
+            imgView.setImageResource(R.drawable.ic_menu_camera);
+
         return myView;
     }
 }

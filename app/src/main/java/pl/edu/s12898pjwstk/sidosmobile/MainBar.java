@@ -1,8 +1,12 @@
 package pl.edu.s12898pjwstk.sidosmobile;
 
+import android.app.ProgressDialog;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +21,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import HelperClasses.DatabaseHelper;
+import HelperClasses.HelperMethods;
 import HelperClasses.Utils;
+import Models.UserTokens;
 import ViewModels.GrafikViewModels;
 import ViewModels.KonieViewModels;
 import ViewModels.PracownikViewModels;
@@ -26,13 +33,20 @@ import ViewModels.VetRequestViewModels;
 public class MainBar extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    ProgressDialog progressDialog;
+    public DatabaseHelper db;
+
     android.app.FragmentManager fragmen = getFragmentManager();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_bar);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        db = HelperMethods.getDatabaseObject(getApplicationContext());
+
+
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +70,10 @@ public class MainBar extends AppCompatActivity
         View hView =  navigationView.getHeaderView(0);
         TextView txView = (TextView) hView.findViewById(R.id.UserNameTItle);
         if(Utils.UserTokenCls != null) {
+//            progressDialog = ProgressDialog.show(MainBar.this, "",
+//                    "Loading. Please wait...", true);
             txView.setText(Utils.UserTokenCls.getUserName());
+           // new AsyncGetUserTokenCheck(progressDialog).execute();
         }else{
             txView.setText("Gość");
             navigationView.getMenu().getItem(3).setVisible(false);
@@ -85,9 +102,6 @@ public class MainBar extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_bar, menu);
 
-        if(Utils.UserTokenCls == null){
-
-        }
 
         return true;
     }
@@ -135,14 +149,61 @@ public class MainBar extends AppCompatActivity
                     R.id.mainpage,new GrafikViewModels())
                     .commit();
         }else if(id == R.id.Wyloguj){
-            Utils.UserTokenCls = null;
-            Intent intent = new Intent(getApplicationContext(), loginuseractivity.class);
-            MainBar.this.startActivity(intent);
-            MainBar.this.finish();
+
+            if(Utils.UserTokenCls != null){
+               db.deleteData(Utils.UserTokenCls);
+            }
+
+                Utils.UserTokenCls = null;
+                Intent intent = new Intent(getApplicationContext(), loginuseractivity.class);
+                MainBar.this.startActivity(intent);
+                MainBar.this.finish();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    class AsyncGetUserTokenCheck extends AsyncTask<Void,Void,Void> {
+
+            ProgressDialog pgDialog;
+
+
+        public AsyncGetUserTokenCheck(ProgressDialog pgDialog){
+            this.pgDialog = pgDialog;
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            pgDialog.dismiss();
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                String password = HelperMethods.decryptPassword(Utils.UserTokenCls.getEncryptedPass());
+                UserTokens ustok = HelperMethods.sendPostToken(Utils.UserTokenCls.getUserName(),password);
+                if(ustok != null){
+                    if(ustok.getAccess_token() != Utils.UserTokenCls.getAccess_token()){
+                        db.updateData(ustok.getAccess_token(),Utils.UserTokenCls.getUserName());
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
 }

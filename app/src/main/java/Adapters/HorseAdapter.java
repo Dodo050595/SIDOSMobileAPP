@@ -23,6 +23,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import HelperClasses.HelperMethods;
+import HelperClasses.Utils;
 import Models.Kon;
 import pl.edu.s12898pjwstk.sidosmobile.R;
 
@@ -57,7 +58,7 @@ public class HorseAdapter extends ArrayAdapter<Kon> {
         data_urodzenia.setText("Data Urodzenia: " + HelperMethods.getStringFromDate(singleHorse.getDateOfBirth()));
 
         if(singleHorse.getMainPicture() != null && singleHorse.getMainPicture() != "") {
-            Picasso.with(getContext()).load(singleHorse.getMainPicture()).into(imgView);
+            Picasso.with(getContext()).load(Utils.URLFORAPI + singleHorse.getMainPicture()).into(imgView);
         }else{
             imgView.setImageResource(R.drawable.ic_menu_camera);
         }

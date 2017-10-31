@@ -2,10 +2,12 @@ package HelperClasses;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.renderscript.ScriptGroup;
+import android.util.Base64;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -21,16 +23,25 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.HttpsURLConnection;
 
 import Models.UserTokens;
@@ -212,7 +223,7 @@ public class HelperMethods {
         data += "&" + URLEncoder.encode("grant_type", "UTF-8") + "="
                 + URLEncoder.encode("password", "UTF-8");
 
-        URL obj = new URL(Utils.GetTokenUUser);
+        URL obj = new URL(Utils.TokenUUserAPI);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
         //add reuqest header
@@ -256,5 +267,75 @@ public class HelperMethods {
         UserTokens usTok = gSon.fromJson(response.toString(), UserTokens.class);
 
          return usTok;
+    }
+
+    public static DatabaseHelper getDatabaseObject(Context cont){
+        DatabaseHelper db = new DatabaseHelper(cont);
+        return db;
+
+    }
+
+    public static String decryptPassword(String data){
+
+        try {
+            SecretKeySpec key = generateKey(Utils.MySecretKeyPasssword);
+            Cipher c = Cipher.getInstance("AES");
+            c.init(Cipher.DECRYPT_MODE,key);
+            byte[] decodeValue = Base64.decode(data,Base64.DEFAULT);
+            byte[] deValue = c.doFinal(decodeValue);
+            String dcVal = new String(deValue);
+            return dcVal;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public static String encryotPassword(String data){
+
+        try {
+            SecretKeySpec key = generateKey(Utils.MySecretKeyPasssword);
+            Cipher c = Cipher.getInstance("AES");
+            c.init(Cipher.ENCRYPT_MODE,key);
+            byte[] encVal = c.doFinal(data.getBytes());
+            String encryptedValue = Base64.encodeToString(encVal,Base64.DEFAULT);
+            return encryptedValue;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private static SecretKeySpec generateKey(String password) {
+
+        try {
+            final MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] bytes = password.getBytes("UTF-8");
+            digest.update(bytes,0,bytes.length);
+            byte[] key = digest.digest();
+            SecretKeySpec secretKeySpec = new SecretKeySpec(key,"AES");
+            return secretKeySpec;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
