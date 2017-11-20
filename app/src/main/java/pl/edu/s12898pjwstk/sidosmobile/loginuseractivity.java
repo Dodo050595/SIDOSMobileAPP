@@ -24,7 +24,7 @@ public class loginuseractivity extends AppCompatActivity {
 
     View myView;
     public ProgressDialog progressDialog;
-    private DatabaseHelper db;
+    public DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +34,10 @@ public class loginuseractivity extends AppCompatActivity {
         db = HelperMethods.getDatabaseObject(this.getApplicationContext());
         Utils.UserTokenCls = db.getUserTokenSQL();
         if(Utils.UserTokenCls != null){
-            Intent intent = new Intent(loginuseractivity.this.getApplicationContext(), MainBar.class);
-            loginuseractivity.this.startActivity(intent);
-            loginuseractivity.this.finish();
+            progressDialog = ProgressDialog.show(loginuseractivity.this, "",
+                    "Loading. Please wait...", true);
+            new AsyncGetUserTokenCheck(progressDialog,db,loginuseractivity.this,loginuseractivity.this.getApplicationContext()).execute();
+
             return;
         }
 
@@ -140,6 +141,55 @@ class AsyncGetUserToken extends AsyncTask<Void,Void,Void> {
 
             }
             Utils.UserTokenCls = Ustk;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+}
+
+class AsyncGetUserTokenCheck extends AsyncTask<Void,Void,Void> {
+
+    ProgressDialog pgDialog;
+    DatabaseHelper db;
+    Activity act;
+    Context cont;
+
+    public AsyncGetUserTokenCheck(ProgressDialog pgDialog,DatabaseHelper db,Activity act,Context cont){
+        this.pgDialog = pgDialog;
+        this.db = db;
+        this.act = act;
+        this.cont = cont;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        pgDialog.dismiss();
+        Intent intent = new Intent(cont, MainBar.class);
+        act.startActivity(intent);
+        act.finish();
+        super.onPostExecute(aVoid);
+    }
+
+    @Override
+    protected Void doInBackground(Void... params) {
+        try {
+            String password = HelperMethods.decryptPassword(Utils.UserTokenCls.getEncryptedPass());
+            UserTokens ustok = HelperMethods.sendPostToken(Utils.UserTokenCls.getUserName(),password);
+            if(ustok != null){
+                if(ustok.getAccess_token() != Utils.UserTokenCls.getAccess_token()){
+                    db.updateData(ustok.getAccess_token(),Utils.UserTokenCls.getUserName());
+                    Utils.UserTokenCls.setAccess_token(ustok.getAccess_token());
+                }
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

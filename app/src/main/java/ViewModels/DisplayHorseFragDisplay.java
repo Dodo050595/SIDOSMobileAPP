@@ -45,6 +45,9 @@ public class DisplayHorseFragDisplay extends Fragment{
             TextView val4 = (TextView) myView.findViewById(R.id.horsedsp_val4);
             TextView val5 = (TextView) myView.findViewById(R.id.horsedsp_val5);
             TextView val6 = (TextView) myView.findViewById(R.id.horsedsp_val6);
+            TextView val7 = (TextView) myView.findViewById(R.id.horsedsp_val7);
+            TextView val8 = (TextView) myView.findViewById(R.id.horsedsp_val8);
+            TextView val9 = (TextView) myView.findViewById(R.id.horsedsp_val9);
 
             val1.setText("Imie: " + kon.getName());
             val2.setText("Charakter: " + kon.getCharacter());
@@ -52,6 +55,9 @@ public class DisplayHorseFragDisplay extends Fragment{
             val4.setText("Wysokosc: " + kon.getHeight());
             val5.setText("Status: " + kon.getHealthStatus());
             val6.setText("Plec: " +  kon.getSexType());
+            val7.setText("Kolor: " +  kon.getCoatColour());
+            val8.setText("W stadninie: " +  HelperMethods.getStringFromDate(kon.getSinceWhenInStable()));
+            val9.setText("Komentarz: " +  kon.getComments());
 
                 if(kon.getMainPicture() != null && kon.getMainPicture() != "" )
                     Picasso.with(getContext()).load(Utils.URLFORAPI + kon.getMainPicture()).into(imgHRS);

@@ -101,7 +101,11 @@ public class Kon implements Serializable{
     }
 
     public String getCoatColour() {
-        return coatColour;
+        if(coatColour != null) {
+            return coatColour;
+        }else{
+            return "";
+        }
     }
 
     public void setCoatColour(String coatColour) {

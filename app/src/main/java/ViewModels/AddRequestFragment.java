@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,7 +16,9 @@ import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Base64;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -22,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -58,17 +63,20 @@ public class AddRequestFragment extends Fragment{
     ProgressDialog progressDialog;
     ArrayList<Pracownik> pracownicy;
     ArrayList<Kon> konie;
+    private Boolean photoIn = false;
     int KonID = 0;
     String Picture = "";
+    ImageView imgUploadFile;
     String WeterynarzID = "";
     Gson gSon=  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
     View myView;
+    GestureDetector gestureDetector;
+    boolean tapped;
     public static final int GET_FROM_GALLERY = 3;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
 
         //Detects request codes
         if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
@@ -81,6 +89,10 @@ public class AddRequestFragment extends Fragment{
                 byte[] byteArray = byteArrayOutputStream .toByteArray();
                 Picture = Base64.encodeToString(byteArray, Base64.DEFAULT);
                 System.out.println("Hello");
+                BitmapDrawable bitmapConvertedPhoto = new BitmapDrawable(getResources(), bitmap);
+                imgUploadFile.setImageDrawable(null);
+                imgUploadFile.setImageDrawable(bitmapConvertedPhoto);
+                photoIn = true;
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -98,21 +110,28 @@ public class AddRequestFragment extends Fragment{
         progressDialog = ProgressDialog.show(getActivity(), "",
                 "Loading. Please wait...", true);
         myView = inflater.inflate(R.layout.requestaddfragment, container, false);
+        gestureDetector = new GestureDetector(getContext(), new GestureListener());
+        imgUploadFile = (ImageView) myView.findViewById(R.id.uploadFileRequest);
+        imgUploadFile.setOnTouchListener(new View.OnTouchListener() {
 
-        Button uploadPHotoBTN = (Button) myView.findViewById(R.id.UploadPhotoButton);
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+                return gestureDetector.onTouchEvent(event);
+            }
 
-        uploadPHotoBTN.setOnClickListener(new Button.OnClickListener() {
+        });
+
+        //Button uploadPHotoBTN = (Button) myView.findViewById(R.id.UploadPhotoButton);
+
+       /* uploadPHotoBTN.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-//                final Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-////to get image and videos, I used a */"
-//                galleryIntent.setType("*/*");
-//                startActivityForResult(galleryIntent, 1);
 
                 startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
 
 
             }
-            });
+            });  */
 
         Button btn = (Button) myView.findViewById(R.id.addRequest_button);
         btn.setOnClickListener(new Button.OnClickListener() {
@@ -157,10 +176,6 @@ public class AddRequestFragment extends Fragment{
 
         return myView;
     }
-
-
-
-
 
 
     public class AsyncGetRequest extends AsyncTask<Void,Void,String>{
@@ -276,6 +291,42 @@ public class AddRequestFragment extends Fragment{
                 e.printStackTrace();
             }
             return "Done";
+        }
+    }
+
+
+    public class GestureListener extends
+            GestureDetector.SimpleOnGestureListener {
+
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+
+            return true;
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            if(!photoIn){
+                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+                photoIn = true;
+            }
+
+            return super.onSingleTapUp(e);
+        }
+
+        // event when double tap occurs
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+
+            if(photoIn) {
+                imgUploadFile.setImageDrawable(null);
+                Picture = "";
+
+                imgUploadFile.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_camera, null));
+                photoIn = false;
+            }
+                return true;
         }
     }
 }

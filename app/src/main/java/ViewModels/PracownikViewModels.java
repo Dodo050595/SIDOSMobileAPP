@@ -1,6 +1,6 @@
 package ViewModels;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -42,7 +42,6 @@ public class PracownikViewModels extends Fragment{
     ListAdapter adapter;
     ListView listv;
     ProgressDialog progressDialog;
-    public final String getEmployee = "http://dev-sidos.azurewebsites.net/api/employees";
 
     @Nullable
     @Override
@@ -99,7 +98,7 @@ public class PracownikViewModels extends Fragment{
 
                 // JSONArray arrayHorseList = new JSONArray(HelperMethods.sendGet(URLHorseWebServie));
                 Gson gSon=  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
-                pracownicy = gSon.fromJson(HelperMethods.sendGet(getEmployee), listType);
+                pracownicy = gSon.fromJson(HelperMethods.sendGet(Utils.EmployeesAPI), listType);
 
 
             } catch (Exception e) {

@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import ViewModels.DisplayEmployeeFragDisplay;
-import ViewModels.DisplayHorseFragDisplay;
 
 public class DisplayEmployeeActivity extends AppCompatActivity {
     android.app.FragmentManager fragmen = getFragmentManager();

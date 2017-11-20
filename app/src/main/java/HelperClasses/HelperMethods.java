@@ -51,9 +51,14 @@ import Models.UserTokens;
  */
 
 public class HelperMethods {
+
+    private static String EncryptCode  = "AES";
+    private static String dateFormat   = "yyyy-MM-dd";
+    private static String encodeformat = "UTF-8";
+
     public static Date getDateString(String dateString){
         Date dt = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
         try {
             Date d = sdf.parse(dateString);
             dt = d;
@@ -65,7 +70,7 @@ public class HelperMethods {
 
     public static String getStringFromDate(Date dt){
         String result = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
         if(dt != null) {
             result = sdf.format(dt);
         }
@@ -146,7 +151,7 @@ public class HelperMethods {
         wr.close();
 
         int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'POST' request to URL : " + url);
+        System.out.println("Sending 'POST' request to URL : " + url);
         System.out.println("Post parameters : " + parameters);
         System.out.println("Response Code : " + responseCode);
 
@@ -215,13 +220,13 @@ public class HelperMethods {
 
     public static UserTokens sendPostToken(String username, String password) throws Exception {
 
-        String data = URLEncoder.encode("username", "UTF-8")
-                + "=" + URLEncoder.encode(username, "UTF-8");
+        String data = URLEncoder.encode("username", encodeformat)
+                + "=" + URLEncoder.encode(username, encodeformat);
 
-        data += "&" + URLEncoder.encode("password", "UTF-8") + "="
-                + URLEncoder.encode(password, "UTF-8");
-        data += "&" + URLEncoder.encode("grant_type", "UTF-8") + "="
-                + URLEncoder.encode("password", "UTF-8");
+        data += "&" + URLEncoder.encode("password", encodeformat) + "="
+                + URLEncoder.encode(password, encodeformat);
+        data += "&" + URLEncoder.encode("grant_type", encodeformat) + "="
+                + URLEncoder.encode("password", encodeformat);
 
         URL obj = new URL(Utils.TokenUUserAPI);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -279,7 +284,7 @@ public class HelperMethods {
 
         try {
             SecretKeySpec key = generateKey(Utils.MySecretKeyPasssword);
-            Cipher c = Cipher.getInstance("AES");
+            Cipher c = Cipher.getInstance(EncryptCode);
             c.init(Cipher.DECRYPT_MODE,key);
             byte[] decodeValue = Base64.decode(data,Base64.DEFAULT);
             byte[] deValue = c.doFinal(decodeValue);
@@ -303,7 +308,7 @@ public class HelperMethods {
 
         try {
             SecretKeySpec key = generateKey(Utils.MySecretKeyPasssword);
-            Cipher c = Cipher.getInstance("AES");
+            Cipher c = Cipher.getInstance(EncryptCode);
             c.init(Cipher.ENCRYPT_MODE,key);
             byte[] encVal = c.doFinal(data.getBytes());
             String encryptedValue = Base64.encodeToString(encVal,Base64.DEFAULT);
@@ -326,10 +331,10 @@ public class HelperMethods {
 
         try {
             final MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] bytes = password.getBytes("UTF-8");
+            byte[] bytes = password.getBytes(encodeformat);
             digest.update(bytes,0,bytes.length);
             byte[] key = digest.digest();
-            SecretKeySpec secretKeySpec = new SecretKeySpec(key,"AES");
+            SecretKeySpec secretKeySpec = new SecretKeySpec(key,EncryptCode);
             return secretKeySpec;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

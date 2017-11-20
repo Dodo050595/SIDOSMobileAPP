@@ -25,9 +25,11 @@ import HelperClasses.DatabaseHelper;
 import HelperClasses.HelperMethods;
 import HelperClasses.Utils;
 import Models.UserTokens;
+import ViewModels.CreateEventsTabViewModels;
 import ViewModels.GrafikViewModels;
 import ViewModels.KonieViewModels;
 import ViewModels.PracownikViewModels;
+import ViewModels.TaskDisplayViewModel;
 import ViewModels.VetRequestViewModels;
 
 public class MainBar extends AppCompatActivity
@@ -36,7 +38,7 @@ public class MainBar extends AppCompatActivity
     ProgressDialog progressDialog;
     public DatabaseHelper db;
 
-    android.app.FragmentManager fragmen = getFragmentManager();
+    FragmentManager fragmen = getSupportFragmentManager();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,14 +72,12 @@ public class MainBar extends AppCompatActivity
         View hView =  navigationView.getHeaderView(0);
         TextView txView = (TextView) hView.findViewById(R.id.UserNameTItle);
         if(Utils.UserTokenCls != null) {
-//            progressDialog = ProgressDialog.show(MainBar.this, "",
-//                    "Loading. Please wait...", true);
             txView.setText(Utils.UserTokenCls.getUserName());
-           // new AsyncGetUserTokenCheck(progressDialog).execute();
         }else{
             txView.setText("Gość");
             navigationView.getMenu().getItem(3).setVisible(false);
             navigationView.getMenu().getItem(4).setVisible(false);
+            navigationView.getMenu().getItem(5).setVisible(false);
         }
 
 
@@ -144,10 +144,15 @@ public class MainBar extends AppCompatActivity
             fragmen.beginTransaction().replace(
                     R.id.mainpage,new VetRequestViewModels())
                     .commit();
-        }else if(id == R.id.Grafik){
+        }else if(id == R.id.Grafik) {
             fragmen.beginTransaction().replace(
-                    R.id.mainpage,new GrafikViewModels())
+                    R.id.mainpage, new CreateEventsTabViewModels())
                     .commit();
+        }else if(id == R.id.Zadania) {
+            fragmen.beginTransaction().replace(
+                    R.id.mainpage, new TaskDisplayViewModel())
+                    .commit();
+
         }else if(id == R.id.Wyloguj){
 
             if(Utils.UserTokenCls != null){
@@ -165,45 +170,4 @@ public class MainBar extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    class AsyncGetUserTokenCheck extends AsyncTask<Void,Void,Void> {
-
-            ProgressDialog pgDialog;
-
-
-        public AsyncGetUserTokenCheck(ProgressDialog pgDialog){
-            this.pgDialog = pgDialog;
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            pgDialog.dismiss();
-            super.onPostExecute(aVoid);
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                String password = HelperMethods.decryptPassword(Utils.UserTokenCls.getEncryptedPass());
-                UserTokens ustok = HelperMethods.sendPostToken(Utils.UserTokenCls.getUserName(),password);
-                if(ustok != null){
-                    if(ustok.getAccess_token() != Utils.UserTokenCls.getAccess_token()){
-                        db.updateData(ustok.getAccess_token(),Utils.UserTokenCls.getUserName());
-                    }
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-    }
-
 }

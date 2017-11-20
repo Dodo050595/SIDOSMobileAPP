@@ -1,26 +1,36 @@
 package ViewModels;
 
 import android.app.DatePickerDialog;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.ListViewAutoScrollHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
+import Adapters.HorseAdapter;
+import Adapters.hourslineAdapter;
 import HelperClasses.HelperMethods;
+import HelperClasses.Utils;
+import Models.Kon;
 import pl.edu.s12898pjwstk.sidosmobile.R;
 
 /**
@@ -60,6 +70,10 @@ public class GrafikViewModels extends Fragment{
                 dateTextView.setText(HelperMethods.getStringFromDate(dt));
             }
         });
+
+        ListView HoursList = (ListView) myView.findViewById(R.id.hrsListView);
+        ListAdapter adapter = new hourslineAdapter(getContext(), (ArrayList<String>) Utils.generateHoursOfLessons());
+        HoursList.setAdapter(adapter);
 
 
 
