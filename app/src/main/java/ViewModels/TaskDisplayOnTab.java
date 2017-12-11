@@ -85,8 +85,6 @@ public class TaskDisplayOnTab extends Fragment {
         String rejectedString = gSon.toJson(RejectedTasks);
         Fragment RejectedTasks = TaskDisplayRejectedViewModels.newInstance(rejectedString);
         adapter.addFragment(RejectedTasks,"Odrzucone zadania");
-        //adapter.addFragment(new MyEventDisplay(),"Moje Zajecia");
-
 
         viewPager.setAdapter(adapter);
     }
@@ -103,6 +101,12 @@ public class TaskDisplayOnTab extends Fragment {
         public Fragment getItem(int position) {
             return mFragmentList.get(position);
         }
+
+             @Override
+             public int getItemPosition(Object object) {
+        // POSITION_NONE makes it possible to reload the PagerAdapter
+                 return POSITION_NONE;
+             }
 
         @Override
         public int getCount() {

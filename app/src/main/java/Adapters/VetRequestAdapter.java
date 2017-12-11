@@ -10,9 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import HelperClasses.HelperMethods;
+import HelperClasses.Utils;
 import Models.Kon;
 import Models.VetRequest;
 import pl.edu.s12898pjwstk.sidosmobile.R;
@@ -33,17 +36,22 @@ public class VetRequestAdapter extends ArrayAdapter<VetRequest> {
         LayoutInflater buckysInflater = LayoutInflater.from(getContext());
         View customView = buckysInflater.inflate(R.layout.custom_row,parent,false);
 
-        VetRequest singleHorse = getItem(position);
+        VetRequest singleVetRequest = getItem(position);
         TextView nazwa = (TextView) customView.findViewById(R.id.Row_FirstValue);
         TextView pseudonim = (TextView) customView.findViewById(R.id.Row_SecondValue);
         TextView data_urodzenia = (TextView) customView.findViewById(R.id.Row_ThirdValue);
         ImageView imgView = (ImageView) customView.findViewById(R.id.imgView);
 
 
-        nazwa.setText("Kon: " + ((singleHorse.getHorse() == null) ? "" : singleHorse.getHorse().getName()));
-        pseudonim.setText("Weterynarz: " + ((singleHorse.getveterinary()==null) ? "" : singleHorse.getveterinary().toString()));
-        data_urodzenia.setText("Zgłoszone przez : " + ((singleHorse.getreportedBy() == null) ? "" : singleHorse.getreportedBy().toString()));
-        imgView.setImageResource(R.drawable.badanie_konia);
+        nazwa.setText("Kon: " + ((singleVetRequest.getHorse() == null) ? "" : singleVetRequest.getHorse().getName()));
+        pseudonim.setText("Weterynarz: " + ((singleVetRequest.getveterinary()==null) ? "" : singleVetRequest.getveterinary().toString()));
+        data_urodzenia.setText("Zgłoszone przez : " + ((singleVetRequest.getreportedBy() == null) ? "" : singleVetRequest.getreportedBy().toString()));
+
+        if(singleVetRequest.getPictureUrl() != null && singleVetRequest.getPictureUrl() != "") {
+            Picasso.with(getContext()).load(Utils.URLFORAPI + singleVetRequest.getPictureUrl()).into(imgView);
+        }else{
+            imgView.setImageResource(R.drawable.ic_menu_camera);
+        }
 
         return customView;
     }

@@ -47,7 +47,7 @@ public class TaskDisplayAcceptedViewModels extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.taskdisplay, container, false);
         Bundle args = getArguments();
-        String a =  (String) args.getSerializable("Tasks");
+        String a =  (String) args.getSerializable("Event");
         List<Task> tsk = new ArrayList<Task>();
         Type listType = new TypeToken<ArrayList<Task>>() {
         }.getType();

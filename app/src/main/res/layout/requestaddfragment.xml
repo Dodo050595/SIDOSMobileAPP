@@ -143,7 +143,6 @@
                     android:layout_marginTop="10dp"
                     android:text="Opis"
                     android:textAlignment="center"
-                    android:textColor="@color/colorPrimary"
                     android:textSize="20sp" />
 
                 <EditText

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -15,6 +16,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -28,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -44,10 +47,12 @@ import java.util.Date;
 import java.util.List;
 
 import Adapters.HorseFilterAdapter;
+import Adapters.TasksAdapter;
 import HelperClasses.HelperMethods;
 import HelperClasses.Utils;
 import Models.Kon;
 import Models.Pracownik;
+import Models.TaskChangeStatusDto;
 import Models.VetRequest;
 import Models.VetRequestSEND;
 import ViewModels.VetRequestViewModels;
@@ -65,6 +70,7 @@ public class AddRequestFragment extends Fragment{
     ArrayList<Kon> konie;
     private Boolean photoIn = false;
     int KonID = 0;
+    private static final int CAMERA_REQUEST = 1888;
     String Picture = "";
     ImageView imgUploadFile;
     String WeterynarzID = "";
@@ -73,6 +79,8 @@ public class AddRequestFragment extends Fragment{
     GestureDetector gestureDetector;
     boolean tapped;
     public static final int GET_FROM_GALLERY = 3;
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -84,13 +92,7 @@ public class AddRequestFragment extends Fragment{
             Bitmap bitmap = null;
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), selectedImage);
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                byte[] byteArray = byteArrayOutputStream .toByteArray();
-                Picture = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                BitmapDrawable bitmapConvertedPhoto = new BitmapDrawable(getResources(), bitmap);
-                imgUploadFile.setImageDrawable(null);
-                imgUploadFile.setImageDrawable(bitmapConvertedPhoto);
+                imgUploadFile.setImageDrawable(createBitMapDrawableImage(bitmap));
                 photoIn = true;
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
@@ -99,7 +101,14 @@ public class AddRequestFragment extends Fragment{
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+        }else {
+            if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                imgUploadFile.setImageDrawable(createBitMapDrawableImage(bitmap));
+                photoIn = true;
+            }
         }
+
     }
 
 
@@ -307,8 +316,26 @@ public class AddRequestFragment extends Fragment{
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
             if(!photoIn){
-                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
-                photoIn = true;
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                alert.setMessage("Wybierz metode dodania zdjecia");
+                alert.setTitle("Zdjecie");
+
+                alert.setNegativeButton("Galeria", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+                    }
+                });
+                alert.setPositiveButton("Aparat", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                    }
+                });
+
+                alert.show();
+
+
             }
 
             return super.onSingleTapUp(e);
@@ -327,5 +354,14 @@ public class AddRequestFragment extends Fragment{
             }
                 return true;
         }
+    }
+
+    private BitmapDrawable createBitMapDrawableImage(Bitmap bitmap){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        Picture = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        BitmapDrawable bitmapConvertedPhoto = new BitmapDrawable(getResources(), bitmap);
+        return bitmapConvertedPhoto;
     }
 }

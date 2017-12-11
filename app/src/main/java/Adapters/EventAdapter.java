@@ -54,7 +54,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         TextView title  = (TextView) customView.findViewById(R.id.TaskNumber);
         title.setText("Zajęcia: " + ev.getEvent());
         firstValue.setText("Typ: " + ev.getEvent());
-        secondValue.setText("Opis: " + ev.getDescription());
+        FifthValue.setText("Opis: " + ev.getDescription());
         thirdValue.setText("Start: " + HelperMethods.getStringFromDate(ev.getDateStart()));
         fourthValue.setText("Koniec: " + HelperMethods.getStringFromDate(ev.getDateEnd()));
 
@@ -62,8 +62,8 @@ public class EventAdapter extends ArrayAdapter<Event> {
         if(ev.getUrl() != null) {
             final SpannableStringBuilder sb = new SpannableStringBuilder(ev.getUrl());
             sb.setSpan(new ForegroundColorSpan(Color.BLUE), 0, ev.getUrl().length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            FifthValue.setText(sb);
-            FifthValue.setOnClickListener(new View.OnClickListener() {
+            secondValue.setText(sb);
+            secondValue.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 

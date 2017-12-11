@@ -44,7 +44,9 @@ public class VetRequest implements Serializable{
 
     private String status;
 
-    public VetRequest(String id, Pracownik employeeResponsible, Kon horse, User submittedBy, Date requestDate, String descripton, String descriptionAboutPlaceWhereHorseWasInjured, String priority, String status) {
+    private String pictureUrl;
+
+    public VetRequest(String id, Pracownik employeeResponsible, Kon horse, User submittedBy, Date requestDate, String descripton, String descriptionAboutPlaceWhereHorseWasInjured, String priority, String status,String pictureUrl) {
         this.id = id;
         this.veterinary = employeeResponsible;
         this.horse = horse;
@@ -54,15 +56,7 @@ public class VetRequest implements Serializable{
         this.descriptionAboutPlaceWhereHorseWasInjured = descriptionAboutPlaceWhereHorseWasInjured;
         this.priority = priority;
         this.status = status;
-    }
-
-    public VetRequest( Pracownik employeeResponsible, Kon horse, Date requestDate, String descripton, String descriptionAboutPlaceWhereHorseWasInjured, String priority) {
-        this.veterinary = employeeResponsible;
-        this.horse = horse;
-        this.requestDate = requestDate;
-        this.descripton = descripton;
-        this.descriptionAboutPlaceWhereHorseWasInjured = descriptionAboutPlaceWhereHorseWasInjured;
-        this.priority = priority;
+        this.pictureUrl = pictureUrl;
     }
 
     public String getId() {
@@ -135,5 +129,13 @@ public class VetRequest implements Serializable{
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getPictureUrl() {
+        return ((pictureUrl==null) ? pictureUrl : pictureUrl.replace("~", ""));
+
+    }
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 }

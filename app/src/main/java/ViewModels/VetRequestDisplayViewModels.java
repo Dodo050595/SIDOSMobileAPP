@@ -51,8 +51,11 @@ public class VetRequestDisplayViewModels extends Fragment{
         val6.setText("Priorytet: " + vtRequest.getPriority());
         val8.setText("Opis: " + vtRequest.getDescripton());
 
-        imgView.setImageResource(R.drawable.ic_menu_camera);
-
+        if(vtRequest.getPictureUrl() != null && vtRequest.getPictureUrl() != "") {
+            Picasso.with(getContext()).load(Utils.URLFORAPI + vtRequest.getPictureUrl()).into(imgView);
+        }else{
+            imgView.setImageResource(R.drawable.ic_menu_camera);
+        }
 
         return myView;
     }

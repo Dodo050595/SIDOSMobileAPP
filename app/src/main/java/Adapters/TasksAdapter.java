@@ -27,6 +27,7 @@ import HelperClasses.Utils;
 import Models.Kon;
 import Models.Task;
 import Models.TaskChangeStatusDto;
+import ViewModels.TaskDisplayOnTab;
 import pl.edu.s12898pjwstk.sidosmobile.MainBar;
 import pl.edu.s12898pjwstk.sidosmobile.R;
 
@@ -158,14 +159,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
                 HelperMethods.CreateInfoAlert(Activ, "Success", "Udało się zmienić status zadania !!");
             else
                 HelperMethods.CreateErrorAlert(Activ,"Error","Nie Udało się zmienić status zadania !!");
-
             progressDialog.dismiss();
-//            if(err) {
-//                HelperMethods.CreateErrorAlert(vw.getContext(), "Error", "Cant add Vet request");
-//            }else{
-//                HelperMethods.CreateInfoAlert(getActivity(), "Done", "Vet request was added");
-//            }
-            //getActivity().finish();
             super.onPostExecute(s);
         }
 
