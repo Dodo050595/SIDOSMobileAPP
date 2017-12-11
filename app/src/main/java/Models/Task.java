@@ -1,5 +1,6 @@
 package Models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by dejad on 2017-11-20.
  */
 
-public class Task {
+public class Task implements Serializable{
 
     private Date      acceptationDate;
     private Date      realizationDate;
@@ -34,6 +35,10 @@ public class Task {
         this.cancellationCause = cancellationCause;
         this.refersTo = refersTo;
         this.assignedTo = assignedTo;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public Date getAcceptationDate() {

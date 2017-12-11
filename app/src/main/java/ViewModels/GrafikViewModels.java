@@ -2,7 +2,6 @@ package ViewModels;
 
 import android.app.DatePickerDialog;
 import android.support.v4.app.Fragment;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.ListViewAutoScrollHelper;
@@ -17,8 +16,13 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,7 +34,9 @@ import Adapters.HorseAdapter;
 import Adapters.hourslineAdapter;
 import HelperClasses.HelperMethods;
 import HelperClasses.Utils;
+import Models.Event;
 import Models.Kon;
+import Models.Task;
 import pl.edu.s12898pjwstk.sidosmobile.R;
 
 /**
@@ -44,10 +50,28 @@ public class GrafikViewModels extends Fragment{
     Calendar myCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener date;
 
+    public static Fragment newInstance(String tsk) {
+        GrafikViewModels myFragment = new GrafikViewModels();
+
+        Bundle args = new Bundle();
+        args.putSerializable("Event", tsk);
+        myFragment.setArguments(args);
+
+        return myFragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.grafik, container, false);
+        System.out.println("Arguments = " + getArguments());
+        Bundle args = getArguments();
+        String a =  (String) args.getSerializable("Event");
+        List<Event> EventList;
+        Type listType = new TypeToken<ArrayList<Event>>() {
+        }.getType();
+        Gson gSon = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+        EventList = gSon.fromJson(a, listType);
 
          Button ArrLeftbtn = (Button) myView.findViewById(R.id.ArrowLeft);
          Button ArrRightbtn = (Button) myView.findViewById(R.id.ArrowRight);

@@ -18,6 +18,8 @@ public class Utils {
     public static final String HorseAPIGetByCharacter      = "http://dev-sidos.azurewebsites.net/api/horses/findbycharacter/";
     public static final String VetRequestAPI               = "http://dev-sidos.azurewebsites.net/api/healthreportissues";
     public static final String TaskAPI                     = "http://dev-sidos.azurewebsites.net/api/Tasks";
+    public static final String TaskAPIChangeStatus         = "http://dev-sidos.azurewebsites.net/api/tasks/changestatus";
+    public static final String EventAPI                    = "http://dev-sidos.azurewebsites.net/api/events";
     public static final String TokenUUserAPI               = "http://dev-sidos.azurewebsites.net/api/oauth/token";
     public static final String URLFORAPI                   = "http://dev-sidos.azurewebsites.net";
     public static final String MySecretKeyPasssword        = "dJjtyWG9HB1VOVDX65tS" +
@@ -279,8 +281,9 @@ public class Utils {
     public static UserTokens UserTokenCls = null;
 
     //Variables to serializable
-    public static final String konSer        = "Kon";
-    public static final String employeeSer   = "Pracownik";
+    public static final String konSer           = "Horse";
+    public static final String employeeSer      = "Employee";
+    public static final String vetRequestStat   = "Vet_Request";
 
     public static List<String> generateHoursOfLessons(){
         List<String> stList = new ArrayList<String>();

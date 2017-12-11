@@ -26,9 +26,12 @@ import java.util.List;
 import Adapters.VetRequestAdapter;
 import HelperClasses.HelperMethods;
 import HelperClasses.Utils;
+import Models.Pracownik;
 import Models.VetRequest;
+import pl.edu.s12898pjwstk.sidosmobile.DisplayEmployeeActivity;
 import pl.edu.s12898pjwstk.sidosmobile.R;
 import pl.edu.s12898pjwstk.sidosmobile.addnewRquest;
+import pl.edu.s12898pjwstk.sidosmobile.vetrequestdisplay;
 
 /**
  * Created by Dominik Deja on 22.05.2017.
@@ -84,6 +87,10 @@ public class VetRequestViewModels extends Fragment {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                                                Intent intent = new Intent(view.getContext(), vetrequestdisplay.class);
+                                                VetRequest vetrq = (VetRequest) parent.getItemAtPosition(position);
+                                                intent.putExtra(Utils.vetRequestStat,vetrq);
+                                                startActivity(intent);
                             }
                         });
             }
@@ -107,7 +114,7 @@ public class VetRequestViewModels extends Fragment {
 
 
             } catch (Exception e) {
-               // e.printStackTrace();
+                HelperMethods.CreateErrorAlert(getActivity(),"Błąd",e.getMessage());
             }
 
             return "Done";

@@ -38,35 +38,37 @@ import pl.edu.s12898pjwstk.sidosmobile.R;
  */
 
 public class PracownikViewModels extends Fragment{
-    View myView;
-    ListAdapter adapter;
-    ListView listv;
-    ProgressDialog progressDialog;
+                View myView;
+                ListAdapter adapter;
+                ListView listv;
+                ProgressDialog progressDialog;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        progressDialog = ProgressDialog.show(getActivity(), "",
-                "Loading. Please wait...", true);
-        myView = inflater.inflate(R.layout.pracownicy,container,false);
-        new AsyncGetEmployee(myView.getContext()).execute();
 
-        return myView;
-    }
-    public class AsyncGetEmployee extends AsyncTask<Void,Void,String> {
+                @Nullable
+                @Override
+                public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+                    progressDialog = ProgressDialog.show(getActivity(), "",
+                            "Loading. Please wait...", true);
+                    myView = inflater.inflate(R.layout.pracownicy,container,false);
+                    new AsyncGetEmployee().execute();
 
-        private Context cont;
-        public List<Pracownik> pracownicy;
+                    return myView;
+                }
+                public class AsyncGetEmployee extends AsyncTask<Void,Void,String> {
 
-        public AsyncGetEmployee(Context _cont){
-            cont = _cont;
-        }
+                    String message = "";
+                    Boolean error = false;
+                    public List<Pracownik> pracownicy = new ArrayList<Pracownik>();
 
-        @Override
-        protected void onPostExecute(String s) {
-            adapter = new EmployeeAdapter(myView.getContext(),(ArrayList<Pracownik>) pracownicy);
-            listv = (ListView) myView.findViewById(R.id.EmployeeList);
-            listv.setAdapter(adapter);
+                    public AsyncGetEmployee(){
+
+                    }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        adapter = new EmployeeAdapter(myView.getContext(),(ArrayList<Pracownik>) pracownicy);
+                        listv = (ListView) myView.findViewById(R.id.EmployeeList);
+                        listv.setAdapter(adapter);
 
             listv.setOnItemClickListener(
                     new AdapterView.OnItemClickListener(){
@@ -81,7 +83,10 @@ public class PracownikViewModels extends Fragment{
                             startActivity(intent);
                         }
                     });
-            progressDialog.dismiss();
+        if(error) {
+            HelperMethods.CreateErrorAlert(getActivity(), "Błąd", message);
+        }
+                        progressDialog.dismiss();
             super.onPostExecute(s);
         }
 
@@ -102,7 +107,8 @@ public class PracownikViewModels extends Fragment{
 
 
             } catch (Exception e) {
-                e.printStackTrace();
+               error = true;
+               message = e.getMessage();
             }
 
             return "Done";

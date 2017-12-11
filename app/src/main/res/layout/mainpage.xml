@@ -10,7 +10,6 @@
         android:layout_marginTop="15dp"
         android:text="System do zarzadzania stajnia"
         android:textAlignment="center"
-        android:textColor="@android:color/background_light"
         android:textSize="30sp" />
 
     <TextView
@@ -20,6 +19,5 @@
         android:layout_marginTop="15dp"
         android:text="Witamy w kompleksowej aplikacji do zarzadzania stajnia ta aplikacja sprawi ze twoje prace zwiazane ze stajnia beda przebiegaly w sposob szybki i sprawny"
         android:textAlignment="center"
-        android:textColor="@android:color/background_light"
         android:textSize="25sp" />
 </LinearLayout>

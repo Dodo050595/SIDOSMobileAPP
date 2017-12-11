@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SIDOSMobile.iml" filepath="$PROJECT_DIR$/SIDOSMobile.iml" />
+      <module fileurl="file://C:\Users\DEJAD\AndroidStudioProject\SIDOSMobileAPP\SIDOSMobile.iml" filepath="C:\Users\DEJAD\AndroidStudioProject\SIDOSMobileAPP\SIDOSMobile.iml" />
       <module fileurl="file://$PROJECT_DIR$/SIDOSMobileAPP.iml" filepath="$PROJECT_DIR$/SIDOSMobileAPP.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

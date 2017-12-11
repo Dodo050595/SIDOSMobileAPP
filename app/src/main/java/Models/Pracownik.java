@@ -44,7 +44,7 @@ public class Pracownik implements Serializable {
     }
 
     public String getFirstName() {
-        return firstName;
+        return (firstName==null) ? "" : firstName;
     }
 
     public void setFirstName(String firstName) {
@@ -52,7 +52,7 @@ public class Pracownik implements Serializable {
     }
 
     public String getLastName() {
-        return lastName;
+        return (lastName==null) ? "" : lastName;
     }
 
     public void setLastName(String lastName) {
@@ -76,7 +76,7 @@ public class Pracownik implements Serializable {
     }
 
     public String getUserName() {
-        return userName;
+        return (userName==null) ? "" : userName;
     }
 
     public void setUserName(String userName) {
@@ -84,7 +84,7 @@ public class Pracownik implements Serializable {
     }
 
     public String getEmail() {
-        return email;
+        return (email==null) ? "" : email;
     }
 
     public void setEmail(String email) {
@@ -100,7 +100,7 @@ public class Pracownik implements Serializable {
     }
 
     public String getPhoneNmber() {
-        return phoneNmber;
+        return (phoneNmber==null) ? "" : phoneNmber;
     }
 
     public void setPhoneNmber(String phoneNmber) {

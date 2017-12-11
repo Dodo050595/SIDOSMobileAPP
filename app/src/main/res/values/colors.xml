@@ -3,4 +3,6 @@
     <color name="colorPrimary">#14226d</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="BackgroundApplication">#e0ded5</color>
+    <color name="LayoutPanels">#3c8dbc</color>
 </resources>

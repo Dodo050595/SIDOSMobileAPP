@@ -101,6 +101,8 @@ public class KonieViewModels extends Fragment {
         String QueryText;
         ArrayAdapter<CharSequence> Horseadapter;
         String spinnerValue;
+        String message = "";
+        Boolean error = false;
 
         @Override
         protected void onProgressUpdate(Void... values) {
@@ -142,6 +144,10 @@ public class KonieViewModels extends Fragment {
             if(spin.getAdapter() == null) {
                 spin.setAdapter(Horseadapter);
             }
+            if(error){
+                HelperMethods.CreateErrorAlert(getActivity(),"Błąd",message);
+            }
+
         progressDialog.dismiss();
         }
 
@@ -154,7 +160,8 @@ public class KonieViewModels extends Fragment {
 
                    // JSONArray arrayHorseList = new JSONArray(HelperMethods.sendGet(URLHorseWebServie));
                     Gson gSon=  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
-                    List<Kon> konie = gSon.fromJson(HelperMethods.sendGet(Utils.HorseAPI), listType);
+                    List<Kon> konie = new ArrayList<Kon>();
+                    konie = gSon.fromJson(HelperMethods.sendGet(Utils.HorseAPI), listType);
 //                    List<Kon> konie = new Gson().fromJson(HelperMethods.sendGet(URLHorseWebServie),Kon.class);
 //                                        List<Kon> konie = (List<Kon>) arrayHorseList;
 //                    for (int i = 0; i < arrayHorseList.length(); i++) {
@@ -175,7 +182,8 @@ public class KonieViewModels extends Fragment {
 //                listv.setAdapter(adapter);
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    error=true;
+                    message = e.getMessage();
                 }
             }
             else if(spinnerValue.equals("Name")){
@@ -185,7 +193,7 @@ public class KonieViewModels extends Fragment {
                     adapter = new HorseAdapter(cont, (ArrayList<Kon>) konie);
                     listv = ls;
                 } catch (Exception e) {
-                    e.printStackTrace();
+
                 }
             }else if(spinnerValue.equals("Character")){
                 try{
@@ -194,7 +202,7 @@ public class KonieViewModels extends Fragment {
                     adapter = new HorseAdapter(cont,(ArrayList<Kon>) konie);
                     listv = ls;
                 } catch (Exception e) {
-                    e.printStackTrace();
+
                 }
             }
             return "done";

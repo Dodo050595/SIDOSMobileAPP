@@ -88,7 +88,6 @@ public class AddRequestFragment extends Fragment{
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream .toByteArray();
                 Picture = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                System.out.println("Hello");
                 BitmapDrawable bitmapConvertedPhoto = new BitmapDrawable(getResources(), bitmap);
                 imgUploadFile.setImageDrawable(null);
                 imgUploadFile.setImageDrawable(bitmapConvertedPhoto);
@@ -285,7 +284,7 @@ public class AddRequestFragment extends Fragment{
         @Override
         protected String doInBackground(Void... params) {
             try {
-                HelperMethods.sendPost(url,body,getActivity());
+                HelperMethods.sendPost(url,body);
             } catch (Exception e) {
                 err = true;
                 e.printStackTrace();

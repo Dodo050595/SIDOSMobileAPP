@@ -29,14 +29,24 @@ public class DisplayEmployeeFragDisplay extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.employeedisplayfragment,container,false);
         Pracownik prc = (Pracownik) getActivity().getIntent().getSerializableExtra(Utils.employeeSer);
-        TextView val1 = (TextView) myView.findViewById(R.id.horsedsp_val1);
-        TextView val2 = (TextView) myView.findViewById(R.id.horsedsp_val2);
-        TextView val3 = (TextView) myView.findViewById(R.id.horsedsp_val3);
-        ImageView imgView = (ImageView) myView.findViewById(R.id.imageView);
+        TextView val1 = (TextView) myView.findViewById(R.id.emp_val1);
+        TextView val2 = (TextView) myView.findViewById(R.id.emp_val2);
+        TextView val3 = (TextView) myView.findViewById(R.id.emp_val3);
+        TextView val4 = (TextView) myView.findViewById(R.id.emp_val4);
+        TextView val5 = (TextView) myView.findViewById(R.id.emp_val5);
+        TextView val6 = (TextView) myView.findViewById(R.id.emp_val6);
+        TextView val7 = (TextView) myView.findViewById(R.id.emp_val7);
+        TextView val8 = (TextView) myView.findViewById(R.id.emp_val8);
+        ImageView imgView = (ImageView) myView.findViewById(R.id.imageViewEmployee);
 
         val1.setText("Imie: " + prc.getFirstName());
         val2.setText("Nazwisko: " + prc.getLastName());
         val3.setText("Data Urodzenia: " + HelperMethods.getStringFromDate(prc.getBirthDate()));
+        val4.setText("Telefon: " + prc.getPhoneNmber());
+        val5.setText("Email: " + prc.getEmail());
+        val6.setText("Stanowisko: " + prc.getEmployeeType());
+        val7.setText("Data Zatrudnienia: " + HelperMethods.getStringFromDate(prc.getHireDate()));
+        val8.setText("Login: " + prc.getUserName());
 
         if(prc.getProfilePicture() != null && prc.getProfilePicture() != "")
             Picasso.with(getContext()).load(Utils.URLFORAPI + prc.getProfilePicture()).into(imgView);

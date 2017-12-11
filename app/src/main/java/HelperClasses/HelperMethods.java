@@ -130,7 +130,7 @@ public class HelperMethods {
         //System.out.println(response.toString());
         return response.toString();
     }
-    public static void sendPost(String url,String parameters,Activity act) throws Exception {
+    public static void sendPost(String url,String parameters) throws Exception {
 
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();

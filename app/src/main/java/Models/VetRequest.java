@@ -1,12 +1,13 @@
 package Models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Dominik Deja on 22.05.2017.
  */
 
-public class VetRequest {
+public class VetRequest implements Serializable{
 
     public static enum HealthProblemPriority{
         Low,
@@ -105,7 +106,7 @@ public class VetRequest {
     }
 
     public String getDescripton() {
-        return descripton;
+        return ((descripton==null) ? "" : descripton) ;
     }
 
     public void setDescripton(String descripton) {
@@ -113,7 +114,7 @@ public class VetRequest {
     }
 
     public String getdescriptionAboutPlaceWhereHorseWasInjured() {
-        return descriptionAboutPlaceWhereHorseWasInjured;
+        return ((descriptionAboutPlaceWhereHorseWasInjured==null) ? "" : descriptionAboutPlaceWhereHorseWasInjured);
     }
 
     public void setdescriptionAboutPlaceWhereHorseWasInjured(String injuryLocation) {
@@ -121,7 +122,7 @@ public class VetRequest {
     }
 
     public String getPriority() {
-        return priority;
+        return ((priority==null) ? "" : priority);
     }
 
     public void setPriority(String priority) {
@@ -129,7 +130,7 @@ public class VetRequest {
     }
 
     public String getStatus() {
-        return status;
+        return ((status==null) ? "" : status);
     }
 
     public void setStatus(String status) {

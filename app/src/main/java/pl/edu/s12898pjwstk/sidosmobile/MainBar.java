@@ -29,6 +29,7 @@ import ViewModels.CreateEventsTabViewModels;
 import ViewModels.GrafikViewModels;
 import ViewModels.KonieViewModels;
 import ViewModels.PracownikViewModels;
+import ViewModels.TaskDisplayOnTab;
 import ViewModels.TaskDisplayViewModel;
 import ViewModels.VetRequestViewModels;
 
@@ -149,9 +150,12 @@ public class MainBar extends AppCompatActivity
                     R.id.mainpage, new CreateEventsTabViewModels())
                     .commit();
         }else if(id == R.id.Zadania) {
+            progressDialog = ProgressDialog.show(this, "",
+                    "Loading. Please wait...", true);
             fragmen.beginTransaction().replace(
-                    R.id.mainpage, new TaskDisplayViewModel())
+                    R.id.mainpage, new TaskDisplayOnTab())
                     .commit();
+            progressDialog.dismiss();
 
         }else if(id == R.id.Wyloguj){
 
