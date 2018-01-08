@@ -9,18 +9,18 @@ import java.io.Serializable;
 public class TaskChangeStatusDto implements Serializable{
     private int id;
     private String Status;
-    private String CancellationCause;
+    //private String CancellationCause;
 
     public TaskChangeStatusDto(int id, String status) {
         this.id = id;
         Status = status;
     }
 
-    public TaskChangeStatusDto(int id, String status, String cancellationCause) {
-        this.id = id;
-        Status = status;
-        CancellationCause = cancellationCause;
-    }
+//    public TaskChangeStatusDto(int id, String status, String cancellationCause) {
+//        this.id = id;
+//        Status = status;
+//        CancellationCause = cancellationCause;
+//    }
 
 
 
@@ -40,11 +40,11 @@ public class TaskChangeStatusDto implements Serializable{
         Status = status;
     }
 
-    public String getCancellationCause() {
-        return CancellationCause;
-    }
-
-    public void setCancellationCause(String cancellationCause) {
-        CancellationCause = cancellationCause;
-    }
+//    public String getCancellationCause() {
+//        return CancellationCause;
+//    }
+//
+//    public void setCancellationCause(String cancellationCause) {
+//        CancellationCause = cancellationCause;
+//    }
 }

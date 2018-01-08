@@ -130,26 +130,13 @@ public class AddRequestFragment extends Fragment{
 
         });
 
-        //Button uploadPHotoBTN = (Button) myView.findViewById(R.id.UploadPhotoButton);
-
-       /* uploadPHotoBTN.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-
-                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
-
-
-            }
-            });  */
-
         Button btn = (Button) myView.findViewById(R.id.addRequest_button);
         btn.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 try {
                     progressDialog = ProgressDialog.show(getActivity(), "",
                             "Loading. Please wait...", true);
-                    // Kon kn = (Kon)((Spinner) myView.findViewById(R.id.AutoTextKon)).getSelectedItem();
 
-                    //Pracownik emp = (Pracownik) ((Spinner) myView.findViewById(R.id.Vet_Spinner)).getSelectedItem();
                     String injuryLocation = ((EditText) myView.findViewById(R.id.Injuryrequest_edit)).getText().toString();
                     String priority = ((Spinner) myView.findViewById(R.id.priority_spinnerLay)).getSelectedItem().toString();
                     String description = ((EditText) myView.findViewById(R.id.description_edit)).getText().toString();

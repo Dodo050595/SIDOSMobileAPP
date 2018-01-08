@@ -67,11 +67,12 @@ public class CreateEventsTabViewModels extends  Fragment{
         return myView;
 
     }
+
     private void setupViewPager(ViewPager viewPager) {
         CreateEventsTabViewModels.ViewPagerAdapter adapter = new CreateEventsTabViewModels.ViewPagerAdapter(fgk);
         String openString = gSon.toJson(EventList);
-        Fragment EventList = GrafikViewModels.newInstance(openString);
-        adapter.addFragment(EventList,"Kalendarz");
+//        Fragment EventList = GrafikViewModels.newInstance(openString);
+//        adapter.addFragment(EventList,"Kalendarz");
         Fragment EventList2 = MyEventDisplay.newInstance(openString);
         adapter.addFragment(EventList2,"Moje Zajecia");
 

@@ -92,38 +92,40 @@ public class TasksAdapter extends ArrayAdapter<Task> {
                 public void onClick(View v) {
                     progressDialog = ProgressDialog.show(getContext(), "",
                             "Loading. Please wait...", true);
-                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                    final EditText edittext = new EditText(getContext());
-                    alert.setMessage("Powod odrzucenia");
-                    alert.setTitle("Decyzja Negatywna");
-                    alert.setView(edittext);
+//                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+//                    final EditText edittext = new EditText(getContext());
+//                    alert.setMessage("Powod odrzucenia");
+//                    alert.setTitle("Decyzja Negatywna");
+//                    alert.setView(edittext);
 
-                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            progressDialog.dismiss();
-                        }
-                    });
-                    alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int whichButton) {
+//                            progressDialog.dismiss();
+//                        }
+//                    });
+//                    alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//
+//                        public void onClick(DialogInterface dialog, int whichButton) {
+//                            String cancellationCauseStr = edittext.getText().toString();
+//                            TaskChangeStatusDto tskChange = new TaskChangeStatusDto(tsk.getId(),"Denied"
+//                            ,cancellationCauseStr);
+//                            final String jsonTskRej = gSon.toJson(tskChange);
+//                            try {
+//
+//                                        new AsyncChangeStatus(act,jsonTskRej).execute();
+//
+//
+//
+//                            } catch (Exception e) {
+//
+//                            }
+//                        }
+//                    });
+                    TaskChangeStatusDto tskChange = new TaskChangeStatusDto(tsk.getId(),"Denied");
+                    final String jsonTskRej = gSon.toJson(tskChange);
+                    new AsyncChangeStatus(act,jsonTskRej).execute();
 
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            String cancellationCauseStr = edittext.getText().toString();
-                            TaskChangeStatusDto tskChange = new TaskChangeStatusDto(tsk.getId(),"Denied"
-                            ,cancellationCauseStr);
-                            final String jsonTskRej = gSon.toJson(tskChange);
-                            try {
-
-                                        new AsyncChangeStatus(act,jsonTskRej).execute();
-
-
-
-                            } catch (Exception e) {
-
-                            }
-                        }
-                    });
-
-
-                    alert.show();
+                    //alert.show();
 
 
 
@@ -133,7 +135,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
             accBTN.setVisibility(View.GONE);
             rejBTN.setVisibility(View.GONE);
             if (tsk.getStatus().equalsIgnoreCase("Denied")) {
-                fourthValue.setText("Powod odrzucenia: " + tsk.getCancellationCause());
+                //fourthValue.setText("Powod odrzucenia: " + tsk.getCancellationCause());
                 title.setText("Zadanie Odrzucone");
             }
             if (tsk.getStatus().equalsIgnoreCase("Accepted")) {

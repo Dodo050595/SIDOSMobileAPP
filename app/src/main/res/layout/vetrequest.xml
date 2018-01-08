@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.24"
-        android:text="Zawiadamienia Weterynarza"
+        android:text="Zgłoszenia do weterynarza"
         android:textAlignment="center"
         android:textSize="25sp" />
 
@@ -23,10 +23,10 @@
         <Button
             android:id="@+id/AddVetRequest"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:background="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Zawiadom Weterynarza"
+            android:background="@color/colorPrimary"
+            android:text="Zgłoś"
             android:textColorLink="?attr/colorPrimaryDark" />
 
     </LinearLayout>

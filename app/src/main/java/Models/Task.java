@@ -18,12 +18,12 @@ public class Task implements Serializable{
     private String    description;
     private String    type;
     private String    status;
-    private String    cancellationCause;
+   // private String    cancellationCause;
     private List<Kon> refersTo;
     private Pracownik assignedTo;
     private int       id;
 
-    public Task(Date acceptationDate, Date realizationDate, Date sentDate, int dosage, String name, String description, String type, String status, String cancellationCause, List<Kon> refersTo, Pracownik assignedTo) {
+    public Task(Date acceptationDate, Date realizationDate, Date sentDate, int dosage, String name, String description, String type, String status,/* String cancellationCause,*/ List<Kon> refersTo, Pracownik assignedTo) {
         this.acceptationDate = acceptationDate;
         this.realizationDate = realizationDate;
         this.sentDate = sentDate;
@@ -32,7 +32,7 @@ public class Task implements Serializable{
         this.description = description;
         this.type = type;
         this.status = status;
-        this.cancellationCause = cancellationCause;
+        //this.cancellationCause = cancellationCause;
         this.refersTo = refersTo;
         this.assignedTo = assignedTo;
     }
@@ -104,14 +104,14 @@ public class Task implements Serializable{
     public void setStatus(String status) {
         this.status = status;
     }
-
-    public String getCancellationCause() {
-        return cancellationCause;
-    }
-
-    public void setCancellationCause(String cancellationCause) {
-        this.cancellationCause = cancellationCause;
-    }
+//
+//    public String getCancellationCause() {
+//        return cancellationCause;
+//    }
+//
+//    public void setCancellationCause(String cancellationCause) {
+//        this.cancellationCause = cancellationCause;
+//    }
 
     public List<Kon> getRefersTo() {
         return refersTo;
