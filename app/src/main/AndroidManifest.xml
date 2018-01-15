@@ -5,14 +5,16 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-feature android:name="android.hardware.camera" android:required="false"></uses-feature>
-
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon_horse"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/icon_horse"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -30,6 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".vetrequestdisplay"></activity>
+        <receiver android:name=".SenderReciever"></receiver>
     </application>
 
 </manifest>

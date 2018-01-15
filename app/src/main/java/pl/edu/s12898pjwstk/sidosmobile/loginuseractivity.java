@@ -47,7 +47,7 @@ public class loginuseractivity extends AppCompatActivity {
         username.setSelected(false);
         password.setSelected(false);
 
-        username.setText("zstajennowski@test.com");
+        username.setText("wkierownikowski@test.com");
         password.setText("Test123!");
 
         myView = findViewById(android.R.id.content);

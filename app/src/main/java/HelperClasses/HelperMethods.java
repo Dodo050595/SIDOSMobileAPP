@@ -2,11 +2,13 @@ package HelperClasses;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.renderscript.ScriptGroup;
+import android.support.v4.app.NotificationCompat;
 import android.util.Base64;
 import android.util.Log;
 
@@ -45,6 +47,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.HttpsURLConnection;
 
 import Models.UserTokens;
+import pl.edu.s12898pjwstk.sidosmobile.R;
 
 /**
  * Created by Dominik Deja on 07.05.2017.
@@ -54,6 +57,7 @@ public class HelperMethods {
 
     private static String EncryptCode  = "AES";
     private static String dateFormat   = "yyyy-MM-dd";
+    private static String dateFormattoGetEvent   = "yyyy-MM-dd";
     private static String encodeformat = "UTF-8";
 
     public static Date getDateString(String dateString){
@@ -71,6 +75,15 @@ public class HelperMethods {
     public static String getStringFromDate(Date dt){
         String result = "";
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+        if(dt != null) {
+            result = sdf.format(dt);
+        }
+        return result;
+    }
+
+    public static String getStringFromDateInEventFormat(Date dt){
+        String result = "";
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormattoGetEvent);
         if(dt != null) {
             result = sdf.format(dt);
         }
@@ -342,5 +355,39 @@ public class HelperMethods {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void sendNotification(Context cont,String text) {
+
+//Get an instance of NotificationManager//
+        try {
+            final NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(cont)
+                            .setSmallIcon(R.drawable.icon_horse)
+                            .setContentTitle("SIDOS Aktywności")
+                            .setContentText(text);
+
+
+// Gets an instance of the NotificationManager service//
+
+            final NotificationManager mNotificationManager =
+
+                    (NotificationManager) cont.getSystemService(Context.NOTIFICATION_SERVICE);
+
+//When you issue multiple notifications about the same type of event, it’s best practice for your app to try to update an existing notification with this new information, rather than immediately creating a new notification. If you want to update this notification at a later date, you need to assign it an ID. You can then use this ID whenever you issue a subsequent notification. If the previous notification is still visible, the system will update this existing notification, rather than create a new one. In this example, the notification’s ID is 001//
+
+            final Runnable task = new Runnable() {
+                @Override
+                public void run() {
+                    //code you want to run every second
+                    mNotificationManager.notify(001, mBuilder.build());
+                }
+            };
+            task.run();
+
+
+        }catch(Exception ex){
+            ex.getStackTrace();
+        }
     }
 }

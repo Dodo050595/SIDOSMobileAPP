@@ -1,14 +1,11 @@
 package pl.edu.s12898pjwstk.sidosmobile;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.ClipData;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -21,16 +18,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 import HelperClasses.DatabaseHelper;
 import HelperClasses.HelperMethods;
 import HelperClasses.Utils;
-import Models.UserTokens;
 import ViewModels.CreateEventsTabViewModels;
-import ViewModels.GrafikViewModels;
 import ViewModels.KonieViewModels;
 import ViewModels.PracownikViewModels;
 import ViewModels.TaskDisplayOnTab;
-import ViewModels.TaskDisplayViewModel;
 import ViewModels.VetRequestViewModels;
 
 public class MainBar extends AppCompatActivity
@@ -74,6 +70,16 @@ public class MainBar extends AppCompatActivity
         TextView txView = (TextView) hView.findViewById(R.id.UserNameTItle);
         if(Utils.UserTokenCls != null) {
             txView.setText(Utils.UserTokenCls.getUserName());
+
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 15);
+            calendar.set(Calendar.MINUTE, 18);
+            Intent intent = new Intent(getApplicationContext(), SenderReciever.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmManager.INTERVAL_DAY, pendingIntent);
+
         }else{
             txView.setText("Gość");
             navigationView.getMenu().getItem(3).setVisible(false);

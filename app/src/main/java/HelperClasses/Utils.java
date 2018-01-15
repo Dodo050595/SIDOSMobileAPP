@@ -20,6 +20,7 @@ public class Utils {
     public static final String TaskAPI                     = "http://dev-sidos.azurewebsites.net/api/Tasks";
     public static final String TaskAPIChangeStatus         = "http://dev-sidos.azurewebsites.net/api/tasks/changestatus";
     public static final String EventAPI                    = "http://dev-sidos.azurewebsites.net/api/events";
+    public static final String EventApigetByDate           = "http://dev-sidos.azurewebsites.net/api/events?date="; //dd-MM-yyyy
     public static final String TokenUUserAPI               = "http://dev-sidos.azurewebsites.net/api/oauth/token";
     public static final String URLFORAPI                   = "http://dev-sidos.azurewebsites.net";
     public static final String MySecretKeyPasssword        = "dJjtyWG9HB1VOVDX65tS" +
