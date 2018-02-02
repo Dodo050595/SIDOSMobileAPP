@@ -156,7 +156,6 @@ public class HelperMethods {
             con.setRequestProperty("Authorization", Utils.UserTokenCls.getToken_type() + " " + Utils.UserTokenCls.getAccess_token());
         }
 
-        // Send post request
         con.setDoOutput(true);
         DataOutputStream wr = new DataOutputStream(con.getOutputStream());
         wr.writeBytes(parameters);
@@ -164,10 +163,6 @@ public class HelperMethods {
         wr.close();
 
         int responseCode = con.getResponseCode();
-        System.out.println("Sending 'POST' request to URL : " + url);
-        System.out.println("Post parameters : " + parameters);
-        System.out.println("Response Code : " + responseCode);
-
 
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
@@ -363,18 +358,14 @@ public class HelperMethods {
         try {
             final NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(cont)
-                            .setSmallIcon(R.drawable.icon_horse)
+                            .setSmallIcon(R.drawable.konik_sidos)
                             .setContentTitle("SIDOS Aktywności")
                             .setContentText(text);
 
 
-// Gets an instance of the NotificationManager service//
-
             final NotificationManager mNotificationManager =
 
                     (NotificationManager) cont.getSystemService(Context.NOTIFICATION_SERVICE);
-
-//When you issue multiple notifications about the same type of event, it’s best practice for your app to try to update an existing notification with this new information, rather than immediately creating a new notification. If you want to update this notification at a later date, you need to assign it an ID. You can then use this ID whenever you issue a subsequent notification. If the previous notification is still visible, the system will update this existing notification, rather than create a new one. In this example, the notification’s ID is 001//
 
             final Runnable task = new Runnable() {
                 @Override

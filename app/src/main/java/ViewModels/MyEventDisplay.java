@@ -55,7 +55,7 @@ public class MyEventDisplay extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.myeventsdisplay, container, false);
         progressDialog = ProgressDialog.show(getActivity(), "",
-                "Loading. Please wait...", true);
+                "Ładowanie. Proszę czekać...", true);
         String a =  (String) getArguments().getSerializable("Event");
         List<Event> EventList;
         Type listType = new TypeToken<ArrayList<Event>>() {

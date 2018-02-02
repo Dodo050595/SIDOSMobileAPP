@@ -73,7 +73,7 @@ public class AddRequestFragment extends Fragment{
     private static final int CAMERA_REQUEST = 1888;
     String Picture = "";
     ImageView imgUploadFile;
-    String WeterynarzID = "";
+    //String WeterynarzID = "";
     Gson gSon=  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
     View myView;
     GestureDetector gestureDetector;
@@ -116,7 +116,7 @@ public class AddRequestFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         progressDialog = ProgressDialog.show(getActivity(), "",
-                "Loading. Please wait...", true);
+                "Ładowanie. Proszę czekać...", true);
         myView = inflater.inflate(R.layout.requestaddfragment, container, false);
         gestureDetector = new GestureDetector(getContext(), new GestureListener());
         imgUploadFile = (ImageView) myView.findViewById(R.id.uploadFileRequest);
@@ -135,13 +135,14 @@ public class AddRequestFragment extends Fragment{
             public void onClick(View v) {
                 try {
                     progressDialog = ProgressDialog.show(getActivity(), "",
-                            "Loading. Please wait...", true);
+                            "Ładowanie. Proszę czekać...", true);
 
                     String injuryLocation = ((EditText) myView.findViewById(R.id.Injuryrequest_edit)).getText().toString();
                     String priority = ((Spinner) myView.findViewById(R.id.priority_spinnerLay)).getSelectedItem().toString();
                     String description = ((EditText) myView.findViewById(R.id.description_edit)).getText().toString();
-                    if (KonID != 0 && !WeterynarzID.equals("")) {
-                        VetRequestSEND vt = new VetRequestSEND(description, injuryLocation, priority,KonID, WeterynarzID,VetRequest.HealthProblemStatus.Received.toString(),Picture);
+                    if (KonID != 0 /*&& !WeterynarzID.equals("")*/) {
+                        String prior = getEnglishVersionOfPriority(priority);
+                        VetRequestSEND vt = new VetRequestSEND(description,prior,injuryLocation,KonID,VetRequest.HealthProblemStatus.Received.toString(),Picture);
                         //Type listType = new TypeToken<VetRequest>(){}.getType();
                         String body = gSon.toJson(vt, VetRequestSEND.class);
                         System.out.println(body);
@@ -160,7 +161,7 @@ public class AddRequestFragment extends Fragment{
 
         getActivity().runOnUiThread(new Runnable() {
             public void run() {
-                new AsyncGetRequest(myView.getContext(),(AutoCompleteTextView) myView.findViewById(R.id.AutoTextKon), (AutoCompleteTextView) myView.findViewById(R.id.VetTextComplex),
+                new AsyncGetRequest(myView.getContext(),(AutoCompleteTextView) myView.findViewById(R.id.AutoTextKon),
                         (Spinner) myView.findViewById(R.id.priority_spinnerLay)).execute();
             }
         });
@@ -175,18 +176,16 @@ public class AddRequestFragment extends Fragment{
 
     public class AsyncGetRequest extends AsyncTask<Void,Void,String>{
         AutoCompleteTextView horse_auto;
-        AutoCompleteTextView vet_auto;
         Spinner priority_spinner;
         //Spinner status_spinner;
         Context cont;
         ArrayAdapter<Pracownik> vet_adapter;
-        ArrayAdapter<VetRequest.HealthProblemPriority> priority_adapter;
+        ArrayAdapter<VetRequest.HealthProblemPriorityPolish> priority_adapter;
         //ArrayAdapter<VetRequest.HealthProblemStatus> status_adapter;
         ArrayAdapter<Kon> horse_adapter;
 
-        public AsyncGetRequest(Context _cont,AutoCompleteTextView _horse_auto,AutoCompleteTextView _vet_auto,Spinner _priority_spinner){
+        public AsyncGetRequest(Context _cont,AutoCompleteTextView _horse_auto,Spinner _priority_spinner){
             horse_auto = _horse_auto;
-            vet_auto = _vet_auto;
             priority_spinner = _priority_spinner;
             cont = _cont;
             //status_spinner = _status_spinner;
@@ -199,15 +198,15 @@ public class AddRequestFragment extends Fragment{
 
         @Override
         protected void onPostExecute(String s) {
-            vet_auto.setAdapter(vet_adapter);
-            vet_auto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Pracownik prac = (Pracownik) parent.getItemAtPosition(position);
-                    WeterynarzID = prac.getId();
-                }
-            });
+//            vet_auto.setAdapter(vet_adapter);
+//            vet_auto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    Pracownik prac = (Pracownik) parent.getItemAtPosition(position);
+//                    WeterynarzID = prac.getId();
+//                }
+//            });
             horse_auto.setAdapter(horse_adapter);
             horse_auto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -243,7 +242,7 @@ public class AddRequestFragment extends Fragment{
 
                 horse_adapter = new ArrayAdapter<Kon>(cont,
                         android.R.layout.simple_spinner_dropdown_item, konie);
-                priority_adapter = new ArrayAdapter<VetRequest.HealthProblemPriority>(cont,android.R.layout.simple_spinner_dropdown_item, VetRequest.HealthProblemPriority.values());
+                priority_adapter = new ArrayAdapter<VetRequest.HealthProblemPriorityPolish>(cont,android.R.layout.simple_spinner_dropdown_item, VetRequest.HealthProblemPriorityPolish.values());
                 //status_adapter = new ArrayAdapter<VetRequest.HealthProblemStatus>(cont,android.R.layout.simple_spinner_dropdown_item, VetRequest.HealthProblemStatus.values());
 
 
@@ -350,5 +349,20 @@ public class AddRequestFragment extends Fragment{
         Picture = Base64.encodeToString(byteArray, Base64.DEFAULT);
         BitmapDrawable bitmapConvertedPhoto = new BitmapDrawable(getResources(), bitmap);
         return bitmapConvertedPhoto;
+    }
+    private String getEnglishVersionOfPriority(String polishVersion){
+
+        if(polishVersion.equalsIgnoreCase(VetRequest.HealthProblemPriorityPolish.Niski.toString())){
+            return VetRequest.HealthProblemPriority.Low.toString();
+        }else if(polishVersion.equalsIgnoreCase(VetRequest.HealthProblemPriorityPolish.Średni.toString())){
+            return VetRequest.HealthProblemPriority.Medium.toString();
+        }else if(polishVersion.equalsIgnoreCase(VetRequest.HealthProblemPriorityPolish.Wysoki.toString())){
+            return VetRequest.HealthProblemPriority.High.toString();
+        }else if(polishVersion.equalsIgnoreCase(VetRequest.HealthProblemPriorityPolish.Najwyższy.toString())){
+            return VetRequest.HealthProblemPriority.VeryHigh.toString();
+        }else if(polishVersion.equalsIgnoreCase(VetRequest.HealthProblemPriorityPolish.Krytyczny.toString())){
+            return VetRequest.HealthProblemPriority.Extreme.toString();
+        }
+        return "";
     }
 }

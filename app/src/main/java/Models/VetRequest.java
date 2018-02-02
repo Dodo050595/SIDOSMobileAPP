@@ -10,11 +10,27 @@ import java.util.Date;
 public class VetRequest implements Serializable{
 
     public static enum HealthProblemPriority{
+
         Low,
         Medium,
         High,
         VeryHigh,
-        Extreme
+        Extreme,
+
+
+
+    }
+
+    public static enum HealthProblemPriorityPolish{
+
+        Niski,
+        Średni,
+        Wysoki,
+        Najwyższy,
+        Krytyczny,
+
+
+
     }
 
     public enum HealthProblemStatus
@@ -34,9 +50,9 @@ public class VetRequest implements Serializable{
 
     private User reportedBy;
 
-    private Date requestDate;
+    private Date createdate;
 
-    private String descripton;
+    private String noteAboutReport;
 
     private String descriptionAboutPlaceWhereHorseWasInjured;
 
@@ -46,18 +62,20 @@ public class VetRequest implements Serializable{
 
     private String pictureUrl;
 
-    public VetRequest(String id, Pracownik employeeResponsible, Kon horse, User submittedBy, Date requestDate, String descripton, String descriptionAboutPlaceWhereHorseWasInjured, String priority, String status,String pictureUrl) {
+    public VetRequest(String id, Pracownik employeeResponsible, Kon horse, User submittedBy, Date createdate, String noteAboutReport, String descriptionAboutPlaceWhereHorseWasInjured, String priority, String status,String pictureUrl) {
         this.id = id;
         this.veterinary = employeeResponsible;
         this.horse = horse;
         this.reportedBy = submittedBy;
-        this.requestDate = requestDate;
-        this.descripton = descripton;
+        this.createdate = createdate;
+        this.noteAboutReport = noteAboutReport;
         this.descriptionAboutPlaceWhereHorseWasInjured = descriptionAboutPlaceWhereHorseWasInjured;
         this.priority = priority;
         this.status = status;
         this.pictureUrl = pictureUrl;
     }
+
+
 
     public String getId() {
         return id;
@@ -91,20 +109,20 @@ public class VetRequest implements Serializable{
         this.reportedBy = submittedBy;
     }
 
-    public Date getRequestDate() {
-        return requestDate;
+    public Date getcreatedate() {
+        return createdate;
     }
 
-    public void setRequestDate(Date requestDate) {
-        this.requestDate = requestDate;
+    public void setcreatedate(Date requestDate) {
+        this.createdate = requestDate;
     }
 
-    public String getDescripton() {
-        return ((descripton==null) ? "" : descripton) ;
+    public String getnoteAboutReport() {
+        return ((noteAboutReport==null) ? "" : noteAboutReport) ;
     }
 
-    public void setDescripton(String descripton) {
-        this.descripton = descripton;
+    public void setnoteAboutReport(String noteAboutReport) {
+        this.noteAboutReport = noteAboutReport;
     }
 
     public String getdescriptionAboutPlaceWhereHorseWasInjured() {

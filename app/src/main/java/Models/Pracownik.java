@@ -17,21 +17,21 @@ public class Pracownik implements Serializable {
     private Date hireDate;
     private String employeeType;
     private String userName;
-    private String email;
-    private Date birthDate;
-    private String phoneNmber;
+    private String emailAddress;
+    private Date dateOfBirth;
+    private String phoneNumber;
     private String profilePicture;
 
-    public Pracownik(String id, String firstName, String lastName, Date hireDate, String employeeType, String userName, String email, Date birthDate, String phoneNmber,String profilePicture) {
+    public Pracownik(String id, String firstName, String lastName, Date hireDate, String employeeType, String userName, String emailAddress, Date dateOfBirth, String phoneNumber,String profilePicture) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.hireDate = hireDate;
         this.employeeType = employeeType;
         this.userName = userName;
-        this.email = email;
-        this.birthDate = birthDate;
-        this.phoneNmber = phoneNmber;
+        this.emailAddress = emailAddress;
+        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
         this.profilePicture = profilePicture;
     }
 
@@ -83,28 +83,28 @@ public class Pracownik implements Serializable {
         this.userName = userName;
     }
 
-    public String getEmail() {
-        return (email==null) ? "" : email;
+    public String getemailAddress() {
+        return (emailAddress==null) ? "" : emailAddress;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setemailAddress(String email) {
+        this.emailAddress = email;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
+    public Date getdateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
+    public void setdateOfBirth(Date birthDate) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public String getPhoneNmber() {
-        return (phoneNmber==null) ? "" : phoneNmber;
+    public String getphoneNumber() {
+        return (phoneNumber==null) ? "" : phoneNumber;
     }
 
-    public void setPhoneNmber(String phoneNmber) {
-        this.phoneNmber = phoneNmber;
+    public void setphoneNumber(String phoneNmber) {
+        this.phoneNumber = phoneNmber;
     }
 
     public String toString(){

@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="System do zarzadzania stajnia"
+        android:text="System do zarządzania stajnią"
         android:textAlignment="center"
         android:textSize="30sp" />
 
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="Witamy w kompleksowej aplikacji do zarzadzania stajnia ta aplikacja sprawi ze twoje prace zwiazane ze stajnia beda przebiegaly w sposob szybki i sprawny"
+        android:text="Witamy w kompleksowej aplikacji do zarządzania stajnią. Ta aplikacja sprawi że twoje prace związane ze stajnią będą przebiegały w sposób szybki i sprawny"
         android:textAlignment="center"
         android:textSize="25sp" />
 </LinearLayout>

@@ -48,7 +48,7 @@ public class EmployeeAdapter extends ArrayAdapter<Pracownik>{
 
         nazwa.setText("Imie: " + pracownik.getFirstName());
         pseudonim.setText("Nazwisko: " + pracownik.getLastName());
-        data_urodzenia.setText("Data Urodzenia: " + HelperMethods.getStringFromDate(pracownik.getBirthDate()));
+        data_urodzenia.setText("Data Urodzenia: " + HelperMethods.getStringFromDate(pracownik.getdateOfBirth()));
 
 
         if(pracownik.getProfilePicture() != null && pracownik.getProfilePicture() != "")

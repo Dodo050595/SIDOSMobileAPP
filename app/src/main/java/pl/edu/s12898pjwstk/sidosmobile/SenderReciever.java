@@ -42,24 +42,11 @@ public class SenderReciever extends WakefulBroadcastReceiver {
             e.printStackTrace();
         }
 
-        //if(NumberCount > 0){
-                HelperMethods.sendNotification(context,"Masz dzisiaj: " + NumberCount + " aktywności. Koniecznie je sprawdź !!");
-          //  }
+        if(NumberCount > 0){
+                HelperMethods.sendNotification(context,"Masz dzisiaj: " + NumberCount + " wydarzeń. Koniecznie je sprawdź !!");
+        }
     }
 
-//    public static void TestNotification(Context context){
-//        try {
-//            String str_result = new AsyncGetCountOfEvent(context).execute().get();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
-//
-//        if(NumberCount > 0){
-//            HelperMethods.sendNotification(context,"Masz dzisiaj: " + NumberCount + " aktywności. Koniecznie je sprawdź !!");
-//        }
-//    }
 
     public class AsyncGetCountOfEvent extends AsyncTask<Void,Void,String> {
 
@@ -84,7 +71,7 @@ public class SenderReciever extends WakefulBroadcastReceiver {
 
             try {
                 Gson gSon = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
-                event = gSon.fromJson(HelperMethods.sendGet(Utils.EventApigetByDate+"28-11-2017"/*HelperMethods.getStringFromDateInEventFormat(HelperMethods.getCurrentDate())*/), listType);
+                event = gSon.fromJson(HelperMethods.sendGet(Utils.EventApigetByDate+HelperMethods.getStringFromDateInEventFormat(HelperMethods.getCurrentDate())), listType);
                 NumberCount = event.size();
             } catch (Exception e) {
                 e.printStackTrace();

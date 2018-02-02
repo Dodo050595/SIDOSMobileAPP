@@ -41,9 +41,9 @@ public class DisplayEmployeeFragDisplay extends Fragment {
 
         val1.setText("Imie: " + prc.getFirstName());
         val2.setText("Nazwisko: " + prc.getLastName());
-        val3.setText("Data Urodzenia: " + HelperMethods.getStringFromDate(prc.getBirthDate()));
-        val4.setText("Telefon: " + prc.getPhoneNmber());
-        val5.setText("Email: " + prc.getEmail());
+        val3.setText("Data Urodzenia: " + HelperMethods.getStringFromDate(prc.getdateOfBirth()));
+        val4.setText("Telefon: " + prc.getphoneNumber());
+        val5.setText("Email: " + prc.getemailAddress());
         val6.setText("Stanowisko: " + prc.getEmployeeType());
         val7.setText("Data Zatrudnienia: " + HelperMethods.getStringFromDate(prc.getHireDate()));
         val8.setText("Login: " + prc.getUserName());

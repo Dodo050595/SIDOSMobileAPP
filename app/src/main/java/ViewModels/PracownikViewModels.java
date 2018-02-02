@@ -48,7 +48,7 @@ public class PracownikViewModels extends Fragment{
                 @Override
                 public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
                     progressDialog = ProgressDialog.show(getActivity(), "",
-                            "Loading. Please wait...", true);
+                            "Ładowanie. Proszę czekać...", true);
                     myView = inflater.inflate(R.layout.pracownicy,container,false);
                     new AsyncGetEmployee().execute();
 

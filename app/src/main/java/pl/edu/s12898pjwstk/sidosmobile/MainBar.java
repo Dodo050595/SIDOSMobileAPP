@@ -72,19 +72,21 @@ public class MainBar extends AppCompatActivity
             txView.setText(Utils.UserTokenCls.getUserName());
 
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 15);
-            calendar.set(Calendar.MINUTE, 18);
-            Intent intent = new Intent(getApplicationContext(), SenderReciever.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmManager.INTERVAL_DAY, pendingIntent);
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.set(Calendar.HOUR_OF_DAY, 8);
+//            calendar.set(Calendar.MINUTE, 30);
+//            Intent intent = new Intent(getApplicationContext(), SenderReciever.class);
+//            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmManager.INTERVAL_DAY, pendingIntent);
 
         }else{
+
             txView.setText("Gość");
             navigationView.getMenu().getItem(3).setVisible(false);
             navigationView.getMenu().getItem(4).setVisible(false);
             navigationView.getMenu().getItem(5).setVisible(false);
+            navigationView.getMenu().getItem(6).setTitle("Zaloguj");
         }
 
 
@@ -157,7 +159,7 @@ public class MainBar extends AppCompatActivity
                     .commit();
         }else if(id == R.id.Zadania) {
             progressDialog = ProgressDialog.show(this, "",
-                    "Loading. Please wait...", true);
+                    "Ładowanie. Proszę czekać...", true);
             fragmen.beginTransaction().replace(
                     R.id.mainpage, new TaskDisplayOnTab())
                     .commit();

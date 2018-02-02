@@ -44,12 +44,12 @@ public class VetRequestDisplayViewModels extends Fragment{
 
         val1.setText("Kon: " + ((vtRequest.getHorse()==null) ? "" : vtRequest.getHorse().getName()));
         val2.setText("Weterynarz: " + ((vtRequest.getveterinary()==null) ? "" : vtRequest.getveterinary().toString()));
-        val3.setText("Zgłoszone przez: " + vtRequest.getreportedBy().toString());
+        val3.setText("Zgłoszone przez: " + ((vtRequest.getreportedBy() == null) ? "" : vtRequest.getreportedBy().toString()));
         val4.setText("Status: " + vtRequest.getStatus());
-        val5.setText("Data Zgłoszenia: " + HelperMethods.getStringFromDate(vtRequest.getRequestDate()));
+        val5.setText("Data Zgłoszenia: " + HelperMethods.getStringFromDate(vtRequest.getcreatedate()));
         val7.setText("Miejsce problemu: " + vtRequest.getdescriptionAboutPlaceWhereHorseWasInjured());
         val6.setText("Priorytet: " + vtRequest.getPriority());
-        val8.setText("Opis: " + vtRequest.getDescripton());
+        val8.setText("Opis: " + vtRequest.getnoteAboutReport());
 
         if(vtRequest.getPictureUrl() != null && vtRequest.getPictureUrl() != "") {
             Picasso.with(getContext()).load(Utils.URLFORAPI + vtRequest.getPictureUrl()).into(imgView);

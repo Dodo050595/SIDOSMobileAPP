@@ -35,7 +35,7 @@ public class loginuseractivity extends AppCompatActivity {
         Utils.UserTokenCls = db.getUserTokenSQL();
         if(Utils.UserTokenCls != null){
             progressDialog = ProgressDialog.show(loginuseractivity.this, "",
-                    "Loading. Please wait...", true);
+                    "Ładowanie. Proszę czekać...", true);
             new AsyncGetUserTokenCheck(progressDialog,db,loginuseractivity.this,loginuseractivity.this.getApplicationContext()).execute();
 
             return;
@@ -72,7 +72,7 @@ public class loginuseractivity extends AppCompatActivity {
                 EditText password = (EditText) findViewById(R.id.editText_password);
 
                 progressDialog = ProgressDialog.show(loginuseractivity.this, "",
-                        "Loading. Please wait...", true);
+                        "Ładowanie. Proszę czekać...", true);
                 new AsyncGetUserToken(username.getText().toString(),password.getText().toString(),savedataCHK.isChecked(),progressDialog,loginuseractivity.this,loginuseractivity.this.getApplicationContext(),db).execute();
 
 

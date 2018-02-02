@@ -47,7 +47,7 @@ public class VetRequestViewModels extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         progressDialog = ProgressDialog.show(getActivity(), "",
-                "Loading. Please wait...", true);
+                "Ładowanie. Proszę czekać...", true);
 
         myView = inflater.inflate(R.layout.vetrequest, container, false);
 
@@ -69,6 +69,8 @@ public class VetRequestViewModels extends Fragment {
 
         private Context cont;
         public List<VetRequest> vetRequests;
+        String message = "";
+        Boolean error = false;
 
         public AsyncGetVetRequest(Context _cont){
             cont = _cont;
@@ -76,23 +78,27 @@ public class VetRequestViewModels extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
-            if(vetRequests.size() > 0) {
-                adapter = new VetRequestAdapter(myView.getContext(), (ArrayList<VetRequest>) vetRequests);
-                listv = (ListView) myView.findViewById(R.id.VetRequestList);
-                listv.setAdapter(adapter);
+            if(error){
+                HelperMethods.CreateErrorAlert(getActivity(),"Błąd",message);
+            }else {
+                if (vetRequests.size() > 0) {
+                    adapter = new VetRequestAdapter(myView.getContext(), (ArrayList<VetRequest>) vetRequests);
+                    listv = (ListView) myView.findViewById(R.id.VetRequestList);
+                    listv.setAdapter(adapter);
 
-                listv.setOnItemClickListener(
-                        new AdapterView.OnItemClickListener() {
+                    listv.setOnItemClickListener(
+                            new AdapterView.OnItemClickListener() {
 
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                                                Intent intent = new Intent(view.getContext(), vetrequestdisplay.class);
-                                                VetRequest vetrq = (VetRequest) parent.getItemAtPosition(position);
-                                                intent.putExtra(Utils.vetRequestStat,vetrq);
-                                                startActivity(intent);
-                            }
-                        });
+                                    Intent intent = new Intent(view.getContext(), vetrequestdisplay.class);
+                                    VetRequest vetrq = (VetRequest) parent.getItemAtPosition(position);
+                                    intent.putExtra(Utils.vetRequestStat, vetrq);
+                                    startActivity(intent);
+                                }
+                            });
+                }
             }
             progressDialog.dismiss();
             super.onPostExecute(s);
@@ -114,7 +120,8 @@ public class VetRequestViewModels extends Fragment {
 
 
             } catch (Exception e) {
-                HelperMethods.CreateErrorAlert(getActivity(),"Błąd",e.getMessage());
+                error=true;
+                message = e.getMessage();
             }
 
             return "Done";

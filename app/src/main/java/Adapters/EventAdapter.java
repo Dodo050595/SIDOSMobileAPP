@@ -54,7 +54,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         TextView title  = (TextView) customView.findViewById(R.id.TaskNumber);
         title.setText("Zajęcia: " + ev.getEvent());
         firstValue.setText("Typ: " + ev.getEvent());
-        FifthValue.setText("Opis: " + ev.getDescription());
+        FifthValue.setText(ev.getDescription());
         thirdValue.setText("Start: " + HelperMethods.getStringFromDate(ev.getDateStart()));
         fourthValue.setText("Koniec: " + HelperMethods.getStringFromDate(ev.getDateEnd()));
 

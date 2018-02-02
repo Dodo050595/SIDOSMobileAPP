@@ -52,7 +52,7 @@ public class TaskDisplayOnTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.taskdisplaytabs, container, false);
         progressDialog = ProgressDialog.show(getActivity(), "",
-                "Loading. Please wait...", true);
+                "Ładowanie. Proszę czekać...", true);
                 OpenTasks     = new ArrayList<Task>();
                 RejectedTasks = new ArrayList<Task>();
                 AcceptedTasks = new ArrayList<Task>();
@@ -126,6 +126,8 @@ public class TaskDisplayOnTab extends Fragment {
         class AsyncgetTasksForUser extends AsyncTask<Void, Void, String> {
 
             private Context cont;
+            String message = "";
+            Boolean error = false;
             public List<Task> tsk = new ArrayList<Task>();
 
             public AsyncgetTasksForUser(Context cont) {
@@ -137,6 +139,12 @@ public class TaskDisplayOnTab extends Fragment {
                 super.onPreExecute();
             }
 
+            @Override
+            protected void onPostExecute(String s) {
+                if (error) {
+                    HelperMethods.CreateErrorAlert(getActivity(), "Błąd", message);
+                }
+            }
 
             @Override
             protected String doInBackground(Void... params) {
@@ -150,19 +158,20 @@ public class TaskDisplayOnTab extends Fragment {
                     tsk = gSon.fromJson(HelperMethods.sendGet(Utils.TaskAPI), listType);
 
                     for(Task ts : tsk){
-                        if(ts.getStatus().equalsIgnoreCase("Planned") || ts.getStatus().equalsIgnoreCase("Changed") ){
+                        if(ts.getStatus().equalsIgnoreCase("Zaplanowane") ){
                             OpenTasks.add(ts);
                         }
-                        if(ts.getStatus().equalsIgnoreCase("Denied")){
+                        if(ts.getStatus().equalsIgnoreCase("Odrzucone")){
                             RejectedTasks.add(ts);
                         }
-                        if(ts.getStatus().equalsIgnoreCase("Accepted")){
+                        if(ts.getStatus().equalsIgnoreCase("Zaakceptowane") || ts.getStatus().equalsIgnoreCase("Wykonane")){
                             AcceptedTasks.add(ts);
                         }
                     }
 
                 } catch (Exception e) {
-                    HelperMethods.CreateErrorAlert(getActivity(),"Błąd",e.getMessage());
+                    error=true;
+                    message = e.getMessage();
                 }
 
                 return null;

@@ -14,6 +14,10 @@ import HelperClasses.HelperMethods;
 public class Kon implements Serializable{
 
 
+    public static enum CharacterOfHorses{
+
+    }
+
     private String character;
     private Boolean isAvailableToRide;
     private Date dateOfBirth;

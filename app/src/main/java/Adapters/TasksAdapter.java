@@ -50,7 +50,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         LayoutInflater buckysInflater = LayoutInflater.from(getContext());
         final View customView = buckysInflater.inflate(R.layout.customrowwithoutphoto,parent,false);
         final Activity act = (MainBar) parent.getContext();
-        String horseNames = "Kon: ";
+        String horseNames = "Koń: ";
 
         final Task tsk = getItem(position);
         Button accBTN = (Button) customView.findViewById(R.id.Accept_Button_Task);
@@ -73,11 +73,11 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         FifthValue.setText("Opis: " + tsk.getDescription());
         title.setText("Zadanie");
 
-        if(tsk.getStatus().equalsIgnoreCase("Planned") || tsk.getStatus().equalsIgnoreCase("Changed") ){
+        if(tsk.getStatus().equalsIgnoreCase("Zaplanowane")){
             accBTN.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     progressDialog = ProgressDialog.show(getContext(), "",
-                            "Loading. Please wait...", true);
+                            "Ładowanie. Proszę czekać...", true);
                     TaskChangeStatusDto tskChange = new TaskChangeStatusDto(tsk.getId(),"Accepted"
                     );
                     final String jsonTskAcc = gSon.toJson(tskChange);
@@ -91,7 +91,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
             rejBTN.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     progressDialog = ProgressDialog.show(getContext(), "",
-                            "Loading. Please wait...", true);
+                            "Ładowanie. Proszę czekać...", true);
 //                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
 //                    final EditText edittext = new EditText(getContext());
 //                    alert.setMessage("Powod odrzucenia");
@@ -133,13 +133,18 @@ public class TasksAdapter extends ArrayAdapter<Task> {
             });
         }else {
             accBTN.setVisibility(View.GONE);
-            rejBTN.setVisibility(View.GONE);
-            if (tsk.getStatus().equalsIgnoreCase("Denied")) {
+            if(!tsk.getStatus().equalsIgnoreCase("Zaakceptowane")) {
+                rejBTN.setVisibility(View.GONE);
+            }
+            if (tsk.getStatus().equalsIgnoreCase("Odrzucone")) {
                 //fourthValue.setText("Powod odrzucenia: " + tsk.getCancellationCause());
                 title.setText("Zadanie Odrzucone");
             }
-            if (tsk.getStatus().equalsIgnoreCase("Accepted")) {
+            if (tsk.getStatus().equalsIgnoreCase("Zaakceptowane")) {
                 title.setText("Zadanie Zaakceptowane");
+            }
+            if(tsk.getStatus().equalsIgnoreCase("Wykonane")){
+                title.setText("Zadanie Wykonane");
             }
         }
 

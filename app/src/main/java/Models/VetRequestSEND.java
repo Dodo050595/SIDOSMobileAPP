@@ -7,10 +7,10 @@ package Models;
 public class VetRequestSEND {
 
     private String NoteAboutReport;
-    private String injuryLocation;
+    private String priority;
     private String descriptionAboutPlaceWhereHorseWasInjured;
     private int horseId;
-    private String veterinaryId;
+   // private String veterinaryId;
     private String userId;
     private String status;
     private String picture;
@@ -31,12 +31,12 @@ public class VetRequestSEND {
         this.userId = userId;
     }
 
-    public VetRequestSEND(String NoteAboutReport, String injuryLocation, String descriptionAboutPlaceWhereHorseWasInjured, int horseId, String veterinaryId,String _status,String picture) {
+    public VetRequestSEND(String NoteAboutReport, String priority, String descriptionAboutPlaceWhereHorseWasInjured, int horseId, String _status,String picture) {
         this.NoteAboutReport = NoteAboutReport;
-        this.injuryLocation = injuryLocation;
+        this.priority = priority;
         this.descriptionAboutPlaceWhereHorseWasInjured = descriptionAboutPlaceWhereHorseWasInjured;
         this.horseId = horseId;
-        this.veterinaryId = veterinaryId;
+        //this.veterinaryId = veterinaryId;
         this.picture = picture;
     }
 
@@ -56,12 +56,12 @@ public class VetRequestSEND {
         this.NoteAboutReport = description;
     }
 
-    public String getInjuryLocation() {
-        return injuryLocation;
+    public String getpriority() {
+        return priority;
     }
 
-    public void setInjuryLocation(String injuryLocation) {
-        this.injuryLocation = injuryLocation;
+    public void setpriority(String injuryLocation) {
+        this.priority = injuryLocation;
     }
 
     public String getdescriptionAboutPlaceWhereHorseWasInjured() {
@@ -80,11 +80,11 @@ public class VetRequestSEND {
         this.horseId = horseId;
     }
 
-    public String getEmployeeId() {
-        return veterinaryId;
-    }
-
-    public void setveterinaryId(String employeeId) {
-        this.veterinaryId = employeeId;
-    }
+//    public String getEmployeeId() {
+//        return veterinaryId;
+//    }
+//
+//    public void setveterinaryId(String employeeId) {
+//        this.veterinaryId = employeeId;
+//    }
 }

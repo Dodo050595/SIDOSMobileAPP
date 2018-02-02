@@ -130,7 +130,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="Zaloguj sie jako Gosc"
+            android:text="Wejdź jako Gość"
             android:textAlignment="center"
             android:textColor="@android:color/holo_blue_dark"
             android:textSize="20sp" />

@@ -54,7 +54,7 @@ public class DisplayHorseFragDisplay extends Fragment{
             val3.setText("Data Urodzenia: " + HelperMethods.getStringFromDate(kon.getDateOfBirth()));
             val4.setText("Wysokosc: " + kon.getHeight());
             val5.setText("Status: " + kon.getHealthStatus());
-            val6.setText("Plec: " +  kon.getSexType());
+            val6.setText("Płeć: " +  kon.getSexType());
             val7.setText("Kolor: " +  kon.getCoatColour());
             val8.setText("W stadninie: " +  HelperMethods.getStringFromDate(kon.getSinceWhenInStable()));
             val9.setText("Komentarz: " +  kon.getComments());

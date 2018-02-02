@@ -7,7 +7,7 @@
     <string name="action_settings">Settings</string>
 
     <string-array name="planets_array">
-        <item>Name</item>
-        <item>Character</item>
+        <item>Imie</item>
+        <item>Charakter</item>
     </string-array>
 </resources>

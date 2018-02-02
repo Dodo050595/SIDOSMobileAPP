@@ -48,7 +48,7 @@ public class KonieViewModels extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         progressDialog= ProgressDialog.show(getActivity(), "",
-                "Loading. Please wait...", true);
+                "Ładowanie. Proszę czekać...", true);
         myView = inflater.inflate(R.layout.konie, container, false);
         ls = (ListView) myView.findViewById(R.id.HorseLIst);
         spin = (Spinner) myView.findViewById(R.id.spinner_horse);
@@ -129,23 +129,25 @@ public class KonieViewModels extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
-            listv.setAdapter(adapter);
-            listv.setOnItemClickListener(
-                    new AdapterView.OnItemClickListener(){
-
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent(view.getContext(), DisplayHorseActivity.class);
-                            Kon kn = (Kon) parent.getItemAtPosition(position);
-                            intent.putExtra(Utils.konSer,kn);
-                            startActivity(intent);
-                        }
-                    });
-            if(spin.getAdapter() == null) {
-                spin.setAdapter(Horseadapter);
-            }
             if(error){
                 HelperMethods.CreateErrorAlert(getActivity(),"Błąd",message);
+            }else {
+                listv.setAdapter(adapter);
+                listv.setOnItemClickListener(
+                        new AdapterView.OnItemClickListener() {
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Intent intent = new Intent(view.getContext(), DisplayHorseActivity.class);
+                                Kon kn = (Kon) parent.getItemAtPosition(position);
+                                intent.putExtra(Utils.konSer, kn);
+                                startActivity(intent);
+                            }
+                        });
+                if (spin.getAdapter() == null) {
+                    spin.setAdapter(Horseadapter);
+                }
+
             }
 
         progressDialog.dismiss();
@@ -162,31 +164,19 @@ public class KonieViewModels extends Fragment {
                     Gson gSon=  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
                     List<Kon> konie = new ArrayList<Kon>();
                     konie = gSon.fromJson(HelperMethods.sendGet(Utils.HorseAPI), listType);
-//                    List<Kon> konie = new Gson().fromJson(HelperMethods.sendGet(URLHorseWebServie),Kon.class);
-//                                        List<Kon> konie = (List<Kon>) arrayHorseList;
-//                    for (int i = 0; i < arrayHorseList.length(); i++) {
-//                        JSONObject obj = arrayHorseList.getJSONObject(i);
-//                        Kon kn = new Kon(obj.getString("name"), obj.getString("character"), HelperMethods.getDateString(obj.getString("birthdate"))
-//                                ,obj.getString("height"));
-//                        konie.add(kn);
-//                        publishProgress();
-//                    }
+
                     Horseadapter = ArrayAdapter.createFromResource(cont, R.array.planets_array, android.R.layout.simple_spinner_item);
                     Horseadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     adapter = new HorseAdapter(cont, (ArrayList<Kon>) konie);
                     listv = ls;
 
 
-//                ListAdapter adapter = new HorseAdapter(myView.getContext(), konie);
-//                ListView listv = (ListView) myView.findViewById(R.id.HorseLIst);
-//                listv.setAdapter(adapter);
-
                 } catch (Exception e) {
                     error=true;
                     message = e.getMessage();
                 }
             }
-            else if(spinnerValue.equals("Name")){
+            else if(spinnerValue.equals("Imie")){
                 try {
                     Gson gSon=  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
                     List<Kon> konie = gSon.fromJson(HelperMethods.sendGet(Utils.HorseAPIGetByName + QueryText), listType);
@@ -195,7 +185,7 @@ public class KonieViewModels extends Fragment {
                 } catch (Exception e) {
 
                 }
-            }else if(spinnerValue.equals("Character")){
+            }else if(spinnerValue.equals("Charakter")){
                 try{
                     Gson gSon=  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
                     List<Kon> konie = gSon.fromJson(HelperMethods.sendGet(Utils.HorseAPIGetByCharacter + QueryText), listType);
