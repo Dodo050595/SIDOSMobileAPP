@@ -2,7 +2,9 @@ package HelperClasses;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -36,8 +38,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -57,7 +61,7 @@ public class HelperMethods {
 
     private static String EncryptCode  = "AES";
     private static String dateFormat   = "yyyy-MM-dd";
-    private static String dateFormattoGetEvent   = "yyyy-MM-dd";
+    private static String dateFormattoGetEvent   = "dd-MM-yyyy";
     private static String encodeformat = "UTF-8";
 
     public static Date getDateString(String dateString){
@@ -226,6 +230,38 @@ public class HelperMethods {
         }
     }
 
+    public static String sendGetInBackground(String url,Context cont) throws Exception {
+
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        con.setRequestProperty("Content-Type", "application/json;odata=verbose");
+        con.setRequestProperty("Accept", "application/json;odata=verbose");
+
+        Utils.UserTokenCls = getDatabaseObject(cont).getUserTokenSQL();
+
+        if(Utils.UserTokenCls != null) {
+            con.setRequestProperty("Authorization", Utils.UserTokenCls.getToken_type() + " " + Utils.UserTokenCls.getAccess_token());
+        }
+        // optional default is GET
+        con.setRequestMethod("GET");
+
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        //print result
+        //System.out.println(response.toString());
+        return response.toString();
+    }
+
     public static UserTokens sendPostToken(String username, String password) throws Exception {
 
         String data = URLEncoder.encode("username", encodeformat)
@@ -276,8 +312,9 @@ public class HelperMethods {
         //print result
         System.out.println(response.toString());
 
-        Gson gSon=  new GsonBuilder().create();
-        UserTokens usTok = gSon.fromJson(response.toString(), UserTokens.class);
+         Gson gSon=  new GsonBuilder().create();
+         UserTokens usTok = gSon.fromJson(response.toString(), UserTokens.class);
+         usTok.UpdateListRoles();
 
          return usTok;
     }
@@ -291,6 +328,7 @@ public class HelperMethods {
     public static String decryptPassword(String data){
 
         try {
+
             SecretKeySpec key = generateKey(Utils.MySecretKeyPasssword);
             Cipher c = Cipher.getInstance(EncryptCode);
             c.init(Cipher.DECRYPT_MODE,key);
@@ -352,7 +390,7 @@ public class HelperMethods {
         return null;
     }
 
-    public static void sendNotification(Context cont,String text) {
+    public static void sendNotification(Context cont, String text, PendingIntent pendingIntent) {
 
 //Get an instance of NotificationManager//
         try {
@@ -360,6 +398,10 @@ public class HelperMethods {
                     new NotificationCompat.Builder(cont)
                             .setSmallIcon(R.drawable.konik_sidos)
                             .setContentTitle("SIDOS Aktywności")
+                            .setContentIntent(pendingIntent)
+                            .setAutoCancel(true)
+                            .setDefaults(Notification.DEFAULT_SOUND)
+                            .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                             .setContentText(text);
 
 
@@ -380,5 +422,31 @@ public class HelperMethods {
         }catch(Exception ex){
             ex.getStackTrace();
         }
+    }
+
+    public static Boolean IsInRole(String role,List<String> RolesToCheck){
+        if(RolesToCheck != null) {
+            for (String rl : RolesToCheck) {
+                if (rl.equalsIgnoreCase(role)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public static Boolean IsInRole(ArrayList<String> role,List<String> RolesToCheck){
+
+        if(RolesToCheck != null) {
+            for (String rl : RolesToCheck) {
+                if (role != null)
+                    if (role.contains(rl)) {
+                        return true;
+                    }
+            }
+        }
+
+        return false;
     }
 }

@@ -23,6 +23,27 @@ public class Utils {
     public static final String EventApigetByDate           = "http://dev-sidos.azurewebsites.net/api/events?date="; //dd-MM-yyyy
     public static final String TokenUUserAPI               = "http://dev-sidos.azurewebsites.net/api/oauth/token";
     public static final String URLFORAPI                   = "http://dev-sidos.azurewebsites.net";
+    public static final ArrayList<String> CanAddVetRequest = new ArrayList<String>() {{
+        add("Supervisor");
+        add("Vet");
+        add("Instructor");
+        add("Blacksmith");
+        add("Groom");
+    }};
+
+    public static final ArrayList<String> CanSeeTasks = new ArrayList<String>() {{
+        add("Supervisor");
+        add("Instructor");
+        add("Blacksmith");
+        add("Groom");
+    }};
+
+    public static final ArrayList<String> CanReadVetRequest = new ArrayList<String>() {{
+        add("Supervisor");
+        add("Vet");
+    }};
+
+
     public static final String MySecretKeyPasssword        = "dJjtyWG9HB1VOVDX65tS" +
             "YcyYkXvYIH8Q5hHiokQY" +
             "LEigfj2cGR4ElJqhJiT6" +

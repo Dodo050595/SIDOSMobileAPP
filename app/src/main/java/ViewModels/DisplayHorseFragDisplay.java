@@ -52,11 +52,11 @@ public class DisplayHorseFragDisplay extends Fragment{
             val1.setText("Imie: " + kon.getName());
             val2.setText("Charakter: " + kon.getCharacter());
             val3.setText("Data Urodzenia: " + HelperMethods.getStringFromDate(kon.getDateOfBirth()));
-            val4.setText("Wysokosc: " + kon.getHeight());
+            val4.setText("Wysokość: " + kon.getHeight() + " cm");
             val5.setText("Status: " + kon.getHealthStatus());
             val6.setText("Płeć: " +  kon.getSexType());
-            val7.setText("Kolor: " +  kon.getCoatColour());
-            val8.setText("W stadninie: " +  HelperMethods.getStringFromDate(kon.getSinceWhenInStable()));
+            val7.setText("Umaszczenie: " +  kon.getCoatColour());
+            val8.setText("W stadninie od: " +  HelperMethods.getStringFromDate(kon.getSinceWhenInStable()));
             val9.setText("Komentarz: " +  kon.getComments());
 
                 if(kon.getMainPicture() != null && kon.getMainPicture() != "" )

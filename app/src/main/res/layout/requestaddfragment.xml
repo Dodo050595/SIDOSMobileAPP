@@ -12,6 +12,7 @@
     <ScrollView
         android:layout_width="349dp"
         android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
         android:gravity="center">
 
         <LinearLayout
@@ -19,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/titleUpper"
                 android:layout_width="match_parent"
@@ -26,9 +28,10 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:gravity="bottom"
-                android:text="Zgłoszenie"
+                android:text="Nowe zgłoszenie"
                 android:textAlignment="center"
                 android:textSize="40sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -51,8 +54,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Wpisz nazwę konia"
                     android:backgroundTint="@color/colorPrimary"
+                    android:hint="Wpisz nazwę konia"
                     android:inputType="text|textNoSuggestions"
                     android:textColorLink="@color/colorPrimary"
                     android:textCursorDrawable="@color/colorPrimary" />

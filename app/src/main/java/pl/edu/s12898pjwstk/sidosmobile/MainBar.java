@@ -23,6 +23,7 @@ import java.util.Calendar;
 import HelperClasses.DatabaseHelper;
 import HelperClasses.HelperMethods;
 import HelperClasses.Utils;
+import Models.UserTokens;
 import ViewModels.CreateEventsTabViewModels;
 import ViewModels.KonieViewModels;
 import ViewModels.PracownikViewModels;
@@ -47,14 +48,7 @@ public class MainBar extends AppCompatActivity
 
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), addnewRquest.class);
-                startActivity(intent);
-            }
-        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -65,31 +59,56 @@ public class MainBar extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         View hView =  navigationView.getHeaderView(0);
         TextView txView = (TextView) hView.findViewById(R.id.UserNameTItle);
         if(Utils.UserTokenCls != null) {
+            Utils.UserTokenCls.UpdateListRoles();
             txView.setText(Utils.UserTokenCls.getUserName());
 
+            if(!HelperMethods.IsInRole(Utils.CanAddVetRequest,Utils.UserTokenCls.getUserRolesList())){
+                navigationView.getMenu().getItem(3).setVisible(false);
+                fab.setVisibility(View.GONE);
 
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.set(Calendar.HOUR_OF_DAY, 8);
-//            calendar.set(Calendar.MINUTE, 30);
-//            Intent intent = new Intent(getApplicationContext(), SenderReciever.class);
-//            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmManager.INTERVAL_DAY, pendingIntent);
+            }else{
+                fab.setVisibility(View.VISIBLE);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getApplicationContext(), addnewRquest.class);
+                        startActivity(intent);
+                    }
+                });
+
+            }
+
+            if(!HelperMethods.IsInRole(Utils.CanSeeTasks,Utils.UserTokenCls.getUserRolesList())){
+                navigationView.getMenu().getItem(5).setVisible(false);
+            }
+
+            boolean alarmUp = (PendingIntent.getBroadcast(getApplicationContext(), 0,
+                    new Intent(getApplicationContext(), SenderReciever.class),
+                    PendingIntent.FLAG_NO_CREATE) != null);
+
+            if(!alarmUp) {
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, 13);
+                calendar.set(Calendar.MINUTE, 38);
+                Intent intent = new Intent(getApplicationContext(), SenderReciever.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmManager.INTERVAL_DAY, pendingIntent);
+            }
 
         }else{
-
+            fab.setVisibility(View.GONE);
             txView.setText("Gość");
             navigationView.getMenu().getItem(3).setVisible(false);
             navigationView.getMenu().getItem(4).setVisible(false);
             navigationView.getMenu().getItem(5).setVisible(false);
             navigationView.getMenu().getItem(6).setTitle("Zaloguj");
         }
-
-
 
         fragmen.beginTransaction().replace(
                 R.id.mainpage,new MainPageFragment())
@@ -109,7 +128,7 @@ public class MainBar extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_bar, menu);
+        //getMenuInflater().inflate(R.menu.main_bar, menu);
 
 
         return true;

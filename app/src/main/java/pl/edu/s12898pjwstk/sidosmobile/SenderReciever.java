@@ -1,10 +1,10 @@
 package pl.edu.s12898pjwstk.sidosmobile;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.content.WakefulBroadcastReceiver;
-import android.support.v7.widget.ThemedSpinnerAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -43,15 +43,26 @@ public class SenderReciever extends WakefulBroadcastReceiver {
         }
 
         if(NumberCount > 0){
-                HelperMethods.sendNotification(context,"Masz dzisiaj: " + NumberCount + " wydarzeń. Koniecznie je sprawdź !!");
+            String text;
+            Intent inten = new Intent(context.getApplicationContext(),MainBar.class);
+            PendingIntent contentIntent =
+                    PendingIntent.getActivity(context.getApplicationContext(), 0, inten , 0);
+                if(NumberCount == 1){
+                    text = "Masz dzisiaj: " + NumberCount + " wydarzenie. Koniecznie je sprawdź !!";
+                }else
+                    text = "Masz dzisiaj: " + NumberCount + " wydarzeń/wydarzenia. Koniecznie je sprawdź !!";
+
+                HelperMethods.sendNotification(context,text,contentIntent);
         }
     }
 
 
     public class AsyncGetCountOfEvent extends AsyncTask<Void,Void,String> {
 
-       public AsyncGetCountOfEvent(Context cont){
+        private Context cont;
 
+       public AsyncGetCountOfEvent(Context _cont){
+            cont = _cont;
        }
 
         @Override
@@ -71,7 +82,7 @@ public class SenderReciever extends WakefulBroadcastReceiver {
 
             try {
                 Gson gSon = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
-                event = gSon.fromJson(HelperMethods.sendGet(Utils.EventApigetByDate+HelperMethods.getStringFromDateInEventFormat(HelperMethods.getCurrentDate())), listType);
+                event = gSon.fromJson(HelperMethods.sendGetInBackground(Utils.EventApigetByDate+HelperMethods.getStringFromDateInEventFormat(HelperMethods.getCurrentDate()),cont), listType);
                 NumberCount = event.size();
             } catch (Exception e) {
                 e.printStackTrace();

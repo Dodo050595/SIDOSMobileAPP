@@ -142,6 +142,7 @@ public class AddRequestFragment extends Fragment{
                     String description = ((EditText) myView.findViewById(R.id.description_edit)).getText().toString();
                     if (KonID != 0 /*&& !WeterynarzID.equals("")*/) {
                         String prior = getEnglishVersionOfPriority(priority);
+
                         VetRequestSEND vt = new VetRequestSEND(description,prior,injuryLocation,KonID,VetRequest.HealthProblemStatus.Received.toString(),Picture);
                         //Type listType = new TypeToken<VetRequest>(){}.getType();
                         String body = gSon.toJson(vt, VetRequestSEND.class);
@@ -180,7 +181,7 @@ public class AddRequestFragment extends Fragment{
         //Spinner status_spinner;
         Context cont;
         ArrayAdapter<Pracownik> vet_adapter;
-        ArrayAdapter<VetRequest.HealthProblemPriorityPolish> priority_adapter;
+        ArrayAdapter<VetRequest.HealthProblemPriority> priority_adapter;
         //ArrayAdapter<VetRequest.HealthProblemStatus> status_adapter;
         ArrayAdapter<Kon> horse_adapter;
 
@@ -242,7 +243,7 @@ public class AddRequestFragment extends Fragment{
 
                 horse_adapter = new ArrayAdapter<Kon>(cont,
                         android.R.layout.simple_spinner_dropdown_item, konie);
-                priority_adapter = new ArrayAdapter<VetRequest.HealthProblemPriorityPolish>(cont,android.R.layout.simple_spinner_dropdown_item, VetRequest.HealthProblemPriorityPolish.values());
+                priority_adapter = new ArrayAdapter<VetRequest.HealthProblemPriority>(cont,android.R.layout.simple_spinner_dropdown_item, VetRequest.HealthProblemPriority.values());
                 //status_adapter = new ArrayAdapter<VetRequest.HealthProblemStatus>(cont,android.R.layout.simple_spinner_dropdown_item, VetRequest.HealthProblemStatus.values());
 
 
@@ -267,9 +268,9 @@ public class AddRequestFragment extends Fragment{
         protected void onPostExecute(String s) {
             progressDialog.dismiss();
             if(err) {
-                HelperMethods.CreateErrorAlert(getActivity(), "Error", "Cant add Vet request");
+                HelperMethods.CreateErrorAlert(getActivity(), "Błąd", "Nie można dodać zgłoszenia !!");
             }else{
-                HelperMethods.CreateInfoAlert(getActivity(), "Done", "Vet request was added");
+                HelperMethods.CreateInfoAlert(getActivity(), "Sukces", "Zgłoszenie dodane prawidłowo !!");
                 getActivity().finish();
             }
                 //getActivity().finish();
@@ -352,16 +353,16 @@ public class AddRequestFragment extends Fragment{
     }
     private String getEnglishVersionOfPriority(String polishVersion){
 
-        if(polishVersion.equalsIgnoreCase(VetRequest.HealthProblemPriorityPolish.Niski.toString())){
-            return VetRequest.HealthProblemPriority.Low.toString();
-        }else if(polishVersion.equalsIgnoreCase(VetRequest.HealthProblemPriorityPolish.Średni.toString())){
-            return VetRequest.HealthProblemPriority.Medium.toString();
-        }else if(polishVersion.equalsIgnoreCase(VetRequest.HealthProblemPriorityPolish.Wysoki.toString())){
-            return VetRequest.HealthProblemPriority.High.toString();
-        }else if(polishVersion.equalsIgnoreCase(VetRequest.HealthProblemPriorityPolish.Najwyższy.toString())){
-            return VetRequest.HealthProblemPriority.VeryHigh.toString();
-        }else if(polishVersion.equalsIgnoreCase(VetRequest.HealthProblemPriorityPolish.Krytyczny.toString())){
-            return VetRequest.HealthProblemPriority.Extreme.toString();
+        if(polishVersion.equalsIgnoreCase(VetRequest.HealthProblemPriority.Low.toString())){
+            return "Low";
+        }else if(polishVersion.equalsIgnoreCase(VetRequest.HealthProblemPriority.Medium.toString())){
+            return "Medium";
+        }else if(polishVersion.equalsIgnoreCase(VetRequest.HealthProblemPriority.High.toString())){
+            return "High";
+        }else if(polishVersion.equalsIgnoreCase(VetRequest.HealthProblemPriority.VeryHigh.toString())){
+            return "VeryHigh";
+        }else if(polishVersion.equalsIgnoreCase(VetRequest.HealthProblemPriority.Extreme.toString())){
+            return "Extreme";
         }
         return "";
     }

@@ -52,28 +52,29 @@ public class EventAdapter extends ArrayAdapter<Event> {
         TextView fourthValue  = (TextView) customView.findViewById(R.id.Row_FourthValue);
         TextView FifthValue  = (TextView) customView.findViewById(R.id.Row_FifthValueComment);
         TextView title  = (TextView) customView.findViewById(R.id.TaskNumber);
-        title.setText("Zajęcia: " + ev.getEvent());
+        title.setText(ev.getEvent());
         firstValue.setText("Typ: " + ev.getEvent());
         FifthValue.setText(ev.getDescription());
         thirdValue.setText("Start: " + HelperMethods.getStringFromDate(ev.getDateStart()));
         fourthValue.setText("Koniec: " + HelperMethods.getStringFromDate(ev.getDateEnd()));
+        secondValue.setHeight(0);
 
 
-        if(ev.getUrl() != null) {
-            final SpannableStringBuilder sb = new SpannableStringBuilder(ev.getUrl());
-            sb.setSpan(new ForegroundColorSpan(Color.BLUE), 0, ev.getUrl().length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            secondValue.setText(sb);
-            secondValue.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(ev.getUrl()));
-                    getContext().startActivity(i);
-                }
-            });
-
-        }
+//        if(ev.getUrl() != null) {
+//            final SpannableStringBuilder sb = new SpannableStringBuilder(ev.getUrl());
+//            sb.setSpan(new ForegroundColorSpan(Color.BLUE), 0, ev.getUrl().length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+//            secondValue.setText(sb);
+//            secondValue.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                    Intent i = new Intent(Intent.ACTION_VIEW);
+//                    i.setData(Uri.parse(ev.getUrl()));
+//                    getContext().startActivity(i);
+//                }
+//            });
+//
+//        }
 
         return customView;
     }

@@ -46,7 +46,7 @@ public class DisplayEmployeeFragDisplay extends Fragment {
         val5.setText("Email: " + prc.getemailAddress());
         val6.setText("Stanowisko: " + prc.getEmployeeType());
         val7.setText("Data Zatrudnienia: " + HelperMethods.getStringFromDate(prc.getHireDate()));
-        val8.setText("Login: " + prc.getUserName());
+        val8.setText("");
 
         if(prc.getProfilePicture() != null && prc.getProfilePicture() != "")
             Picasso.with(getContext()).load(Utils.URLFORAPI + prc.getProfilePicture()).into(imgView);

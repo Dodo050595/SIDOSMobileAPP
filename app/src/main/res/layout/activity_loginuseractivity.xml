@@ -108,7 +108,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_weight="0.24"
                 android:buttonTint="@color/colorPrimary"
-                android:text="Czy chcesz zapamietać dane ??"
+                android:text="Czy chcesz zapamietać dane?"
                 android:textColorLink="@color/colorPrimary" />
 
             <Button

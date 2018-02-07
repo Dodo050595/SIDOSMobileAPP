@@ -17,6 +17,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -58,6 +59,9 @@ public class KonieViewModels extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 if (query.length() > 2) {
                     new AsyncGetHorse(myView.getContext(), ls, spin, query, spin.getSelectedItem().toString()).execute();
+                }else if(query.length() > 0 && query.length() < 3){
+                    Toast.makeText(getActivity(), "Prosze wpisać dłuższy ciąg znaków !!",
+                            Toast.LENGTH_LONG).show();
                 }
                 if(query.length() == 0){
                     new AsyncGetHorse(myView.getContext(),ls,spin).execute();

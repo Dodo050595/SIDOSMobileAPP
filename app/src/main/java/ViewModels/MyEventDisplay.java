@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import Adapters.EmployeeAdapter;
@@ -62,6 +63,7 @@ public class MyEventDisplay extends Fragment {
         }.getType();
         Gson gSon = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         EventList = gSon.fromJson(a, listType);
+        SortCurrentDate(EventList);
             adapter = new EventAdapter(myView.getContext(), (ArrayList<Event>) EventList);
             listv = (ListView) myView.findViewById(R.id.ListViewMyEvent);
             listv.setAdapter(adapter);
@@ -69,6 +71,17 @@ public class MyEventDisplay extends Fragment {
 
 
         return myView;
+    }
+
+    private void SortCurrentDate(List<Event> events){
+
+        for (Iterator<Event> it = events.iterator(); it.hasNext(); ) {
+            Event ev = it.next();
+            if(HelperMethods.getStringFromDate(ev.getDateStart()).equals(HelperMethods.getCurrentDateString())){
+                events.set(0,ev);
+
+            }
+        }
     }
 
 

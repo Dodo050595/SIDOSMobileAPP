@@ -1,5 +1,6 @@
 package ViewModels;
 
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -24,9 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Adapters.VetRequestAdapter;
+import HelperClasses.DatabaseHelper;
 import HelperClasses.HelperMethods;
 import HelperClasses.Utils;
 import Models.Pracownik;
+import Models.UserTokens;
 import Models.VetRequest;
 import pl.edu.s12898pjwstk.sidosmobile.DisplayEmployeeActivity;
 import pl.edu.s12898pjwstk.sidosmobile.R;
@@ -46,11 +49,9 @@ public class VetRequestViewModels extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        progressDialog = ProgressDialog.show(getActivity(), "",
-                "Ładowanie. Proszę czekać...", true);
+
 
         myView = inflater.inflate(R.layout.vetrequest, container, false);
-
         final Button btn = (Button) myView.findViewById(R.id.AddVetRequest);
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -61,8 +62,11 @@ public class VetRequestViewModels extends Fragment {
             }
         });
 
-        new AsyncGetVetRequest(myView.getContext()).execute();
-
+        if(HelperMethods.IsInRole(Utils.CanReadVetRequest,Utils.UserTokenCls.getUserRolesList())) {
+            progressDialog = ProgressDialog.show(getActivity(), "",
+                    "Ładowanie. Proszę czekać...", true);
+            new AsyncGetVetRequest(myView.getContext()).execute();
+        }
         return myView;
     }
     public class AsyncGetVetRequest extends AsyncTask<Void,Void,String> {

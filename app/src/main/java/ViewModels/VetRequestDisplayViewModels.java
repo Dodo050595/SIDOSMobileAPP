@@ -29,24 +29,24 @@ public class VetRequestDisplayViewModels extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.employeedisplayfragment, container, false);
+        myView = inflater.inflate(R.layout.displayvetrequestfragment, container, false);
         VetRequest vtRequest = (VetRequest) getActivity().getIntent().getSerializableExtra(Utils.vetRequestStat);
 
-        TextView val1 = (TextView) myView.findViewById(R.id.emp_val1);
-        TextView val2 = (TextView) myView.findViewById(R.id.emp_val2);
-        TextView val3 = (TextView) myView.findViewById(R.id.emp_val3);
-        TextView val4 = (TextView) myView.findViewById(R.id.emp_val4);
-        TextView val5 = (TextView) myView.findViewById(R.id.emp_val5);
-        TextView val6 = (TextView) myView.findViewById(R.id.emp_val6);
-        TextView val7 = (TextView) myView.findViewById(R.id.emp_val7);
-        TextView val8 = (TextView) myView.findViewById(R.id.emp_val8);
-        ImageView imgView = (ImageView) myView.findViewById(R.id.imageViewEmployee);
+        TextView val1 = (TextView) myView.findViewById(R.id.horsedsp_val2);
+        TextView val2 = (TextView) myView.findViewById(R.id.horsedsp_val1);
+        TextView val3 = (TextView) myView.findViewById(R.id.horsedsp_val3);
+        TextView val4 = (TextView) myView.findViewById(R.id.horsedsp_val4);
+        TextView val5 = (TextView) myView.findViewById(R.id.horsedsp_val5);
+        TextView val6 = (TextView) myView.findViewById(R.id.horsedsp_val6);
+        TextView val7 = (TextView) myView.findViewById(R.id.horsedsp_val7);
+        TextView val8 = (TextView) myView.findViewById(R.id.horsedsp_val8);
+        ImageView imgView = (ImageView) myView.findViewById(R.id.imageViewHorseAcc);
 
         val1.setText("Kon: " + ((vtRequest.getHorse()==null) ? "" : vtRequest.getHorse().getName()));
         val2.setText("Weterynarz: " + ((vtRequest.getveterinary()==null) ? "" : vtRequest.getveterinary().toString()));
         val3.setText("Zgłoszone przez: " + ((vtRequest.getreportedBy() == null) ? "" : vtRequest.getreportedBy().toString()));
         val4.setText("Status: " + vtRequest.getStatus());
-        val5.setText("Data Zgłoszenia: " + HelperMethods.getStringFromDate(vtRequest.getcreatedate()));
+        val5.setText("Data Zgłoszenia: " + HelperMethods.getStringFromDate(vtRequest.getcreateDate()));
         val7.setText("Miejsce problemu: " + vtRequest.getdescriptionAboutPlaceWhereHorseWasInjured());
         val6.setText("Priorytet: " + vtRequest.getPriority());
         val8.setText("Opis: " + vtRequest.getnoteAboutReport());

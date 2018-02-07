@@ -74,7 +74,7 @@ public class CreateEventsTabViewModels extends  Fragment{
 //        Fragment EventList = GrafikViewModels.newInstance(openString);
 //        adapter.addFragment(EventList,"Kalendarz");
         Fragment EventList2 = MyEventDisplay.newInstance(openString);
-        adapter.addFragment(EventList2,"Moje Zajecia");
+        adapter.addFragment(EventList2,"Wydarzenia");
 
 
         viewPager.setAdapter(adapter);

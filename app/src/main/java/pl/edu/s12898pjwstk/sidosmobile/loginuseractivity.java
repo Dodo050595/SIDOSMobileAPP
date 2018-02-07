@@ -30,7 +30,6 @@ public class loginuseractivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loginuseractivity);
-
         db = HelperMethods.getDatabaseObject(this.getApplicationContext());
         Utils.UserTokenCls = db.getUserTokenSQL();
         if(Utils.UserTokenCls != null){
@@ -47,8 +46,8 @@ public class loginuseractivity extends AppCompatActivity {
         username.setSelected(false);
         password.setSelected(false);
 
-        username.setText("wkierownikowski@test.com");
-        password.setText("Test123!");
+//        username.setText("wkierownikowski@test.com");
+//        password.setText("Test123!");
 
         myView = findViewById(android.R.id.content);
 
@@ -93,6 +92,8 @@ class AsyncGetUserToken extends AsyncTask<Void,Void,Void> {
     Context cont;
     String Token;
     Boolean saveData;
+    String message = "";
+    Boolean error = false;
 
     public AsyncGetUserToken(String username,String password,Boolean saveData,ProgressDialog prg,Activity act,Context cont,DatabaseHelper db){
         this.prg = prg;
@@ -111,16 +112,21 @@ class AsyncGetUserToken extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        prg.dismiss();
-        if(Utils.UserTokenCls != null){
-            Intent intent = new Intent(cont, MainBar.class);
-            act.startActivity(intent);
-            act.finish();
-        }else{
-            HelperMethods.CreateErrorAlert(act,"Error","Incorrect Password or Username");
-        }
 
+        if(error) {
+            HelperMethods.CreateErrorAlert(act,"Błąd",message);
+        }else {
+            prg.dismiss();
+            if (Utils.UserTokenCls != null) {
+                Intent intent = new Intent(cont, MainBar.class);
+                act.startActivity(intent);
+                act.finish();
+            } else {
+                HelperMethods.CreateErrorAlert(act, "Błąd", "Nie można zalogować się do aplikacji");
+            }
+        }
+        prg.dismiss();
+        super.onPostExecute(aVoid);
     }
 
     @Override
@@ -143,7 +149,8 @@ class AsyncGetUserToken extends AsyncTask<Void,Void,Void> {
             Utils.UserTokenCls = Ustk;
 
         } catch (Exception e) {
-            e.printStackTrace();
+//            error=true;
+//            message = e.getMessage();
         }
 
         return null;
@@ -157,6 +164,8 @@ class AsyncGetUserTokenCheck extends AsyncTask<Void,Void,Void> {
     DatabaseHelper db;
     Activity act;
     Context cont;
+    String message = "";
+    Boolean error = false;
 
     public AsyncGetUserTokenCheck(ProgressDialog pgDialog,DatabaseHelper db,Activity act,Context cont){
         this.pgDialog = pgDialog;
@@ -172,10 +181,14 @@ class AsyncGetUserTokenCheck extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected void onPostExecute(Void aVoid) {
+        if(error) {
+            HelperMethods.CreateErrorAlert(act,"Błąd",message);
+        }else {
+            Intent intent = new Intent(cont, MainBar.class);
+            act.startActivity(intent);
+            act.finish();
+        }
         pgDialog.dismiss();
-        Intent intent = new Intent(cont, MainBar.class);
-        act.startActivity(intent);
-        act.finish();
         super.onPostExecute(aVoid);
     }
 
@@ -186,13 +199,14 @@ class AsyncGetUserTokenCheck extends AsyncTask<Void,Void,Void> {
             UserTokens ustok = HelperMethods.sendPostToken(Utils.UserTokenCls.getUserName(),password);
             if(ustok != null){
                 if(ustok.getAccess_token() != Utils.UserTokenCls.getAccess_token()){
-                    db.updateData(ustok.getAccess_token(),Utils.UserTokenCls.getUserName());
+                    db.updateData(ustok);
                     Utils.UserTokenCls.setAccess_token(ustok.getAccess_token());
                 }
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+//            error=true;
+//            message = e.getMessage();
         }
 
         return null;

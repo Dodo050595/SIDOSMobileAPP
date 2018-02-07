@@ -1,6 +1,8 @@
 package Adapters;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -39,9 +41,11 @@ public class TasksAdapter extends ArrayAdapter<Task> {
     public static ProgressDialog progressDialog;
     Gson gSon=  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
     Context cont;
+
     public TasksAdapter(@NonNull Context context, ArrayList<Task> tsk) {
         super(context, R.layout.custom_row,tsk);
         cont = context;
+
     }
 
     @NonNull
@@ -51,6 +55,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         final View customView = buckysInflater.inflate(R.layout.customrowwithoutphoto,parent,false);
         final Activity act = (MainBar) parent.getContext();
         String horseNames = "Koń: ";
+
 
         final Task tsk = getItem(position);
         Button accBTN = (Button) customView.findViewById(R.id.Accept_Button_Task);
@@ -67,83 +72,94 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         for(Kon kn : tsk.getRefersTo()){
             horseNames += kn.getName();
         }
+
         secondValue.setText(horseNames);
-        thirdValue.setText("Instruktor: " + ((tsk.getAssignedTo() == null) ? "" : tsk.getAssignedTo().toString()));
-        fourthValue.setText("Dawka: " + tsk.getDosage());
+        thirdValue.setText("Pracownik: " + ((tsk.getAssignedTo() == null) ? "" : tsk.getAssignedTo().toString()));
+        if(tsk.getType().equalsIgnoreCase("Karmienie")) {
+            fourthValue.setText("Dawka: " + tsk.getDosage() + " [kg]");
+        }else{
+            fourthValue.setText("");
+        }
         FifthValue.setText("Opis: " + tsk.getDescription());
         title.setText("Zadanie");
 
-        if(tsk.getStatus().equalsIgnoreCase("Zaplanowane")){
-            accBTN.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    progressDialog = ProgressDialog.show(getContext(), "",
-                            "Ładowanie. Proszę czekać...", true);
-                    TaskChangeStatusDto tskChange = new TaskChangeStatusDto(tsk.getId(),"Accepted"
-                    );
-                    final String jsonTskAcc = gSon.toJson(tskChange);
-                    try {
-                                new AsyncChangeStatus(act,jsonTskAcc).execute();
+        if(tsk.getStatus().equalsIgnoreCase("Zaplanowane") || tsk.getStatus().equalsIgnoreCase("Zaakceptowane")){
+           if(tsk.getAssignedTo().getUserName().equalsIgnoreCase(Utils.UserTokenCls.getUserName())) {
+               accBTN.setOnClickListener(new View.OnClickListener() {
+                   public void onClick(View v) {
+                       progressDialog = ProgressDialog.show(getContext(), "",
+                               "Ładowanie. Proszę czekać...", true);
+                       TaskChangeStatusDto tskChange = null;
+                       if(tsk.getStatus().equalsIgnoreCase("Zaplanowane")) {
+                           tskChange = new TaskChangeStatusDto(tsk.getId(), "Accepted"
+                           );
+                       }else{
+                           tskChange = new TaskChangeStatusDto(tsk.getId(), "Executed");
+                       }
+                       final String jsonTskAcc = gSon.toJson(tskChange);
+                       try {
+                           if(tsk.getStatus().equalsIgnoreCase("Zaplanowane")) {
+                               new AsyncChangeStatus(act, jsonTskAcc, "Zaakceptowane").execute();
+                           }else{
+                               new AsyncChangeStatus(act, jsonTskAcc, "Wykonane").execute();
+                           }
+                       } catch (Exception e) {
+                       }
+                   }
+               });
 
-                    } catch (Exception e) {
-                    }
-                }
-            });
-            rejBTN.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    progressDialog = ProgressDialog.show(getContext(), "",
-                            "Ładowanie. Proszę czekać...", true);
-//                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-//                    final EditText edittext = new EditText(getContext());
-//                    alert.setMessage("Powod odrzucenia");
-//                    alert.setTitle("Decyzja Negatywna");
-//                    alert.setView(edittext);
+               if (tsk.getStatus().equalsIgnoreCase("Zaakceptowane")) {
+                   title.setText("Zadanie Zaakceptowane");
+               }
 
-//                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int whichButton) {
-//                            progressDialog.dismiss();
-//                        }
-//                    });
-//                    alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//
-//                        public void onClick(DialogInterface dialog, int whichButton) {
-//                            String cancellationCauseStr = edittext.getText().toString();
-//                            TaskChangeStatusDto tskChange = new TaskChangeStatusDto(tsk.getId(),"Denied"
-//                            ,cancellationCauseStr);
-//                            final String jsonTskRej = gSon.toJson(tskChange);
-//                            try {
-//
-//                                        new AsyncChangeStatus(act,jsonTskRej).execute();
-//
-//
-//
-//                            } catch (Exception e) {
-//
-//                            }
-//                        }
-//                    });
-                    TaskChangeStatusDto tskChange = new TaskChangeStatusDto(tsk.getId(),"Denied");
-                    final String jsonTskRej = gSon.toJson(tskChange);
-                    new AsyncChangeStatus(act,jsonTskRej).execute();
+               rejBTN.setOnClickListener(new View.OnClickListener() {
+                   public void onClick(View v) {
+                       progressDialog = ProgressDialog.show(getContext(), "",
+                               "Ładowanie. Proszę czekać...", true);
 
-                    //alert.show();
+                       TaskChangeStatusDto tskChange = new TaskChangeStatusDto(tsk.getId(), "Denied");
+                       final String jsonTskRej = gSon.toJson(tskChange);
+                       new AsyncChangeStatus(act, jsonTskRej, "Odrzucone").execute();
+
+                       //alert.show();
 
 
-
-                }
-            });
+                   }
+               });
+           }else{
+               accBTN.setVisibility(View.GONE);
+               rejBTN.setVisibility(View.GONE);
+           }
         }else {
-            accBTN.setVisibility(View.GONE);
-            if(!tsk.getStatus().equalsIgnoreCase("Zaakceptowane")) {
-                rejBTN.setVisibility(View.GONE);
-            }
+
             if (tsk.getStatus().equalsIgnoreCase("Odrzucone")) {
                 //fourthValue.setText("Powod odrzucenia: " + tsk.getCancellationCause());
                 title.setText("Zadanie Odrzucone");
-            }
-            if (tsk.getStatus().equalsIgnoreCase("Zaakceptowane")) {
-                title.setText("Zadanie Zaakceptowane");
+                rejBTN.setVisibility(View.GONE);
+                if(tsk.getAssignedTo().getUserName().equalsIgnoreCase(Utils.UserTokenCls.getUserName())) {
+
+
+                    accBTN.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            progressDialog = ProgressDialog.show(getContext(), "",
+                                    "Ładowanie. Proszę czekać...", true);
+                            TaskChangeStatusDto tskChange = new TaskChangeStatusDto(tsk.getId(), "Accepted"
+                            );
+                            final String jsonTskAcc = gSon.toJson(tskChange);
+                            try {
+                                new AsyncChangeStatus(act, jsonTskAcc, "Zaakceptowane").execute();
+                            } catch (Exception e) {
+                            }
+                        }
+                    });
+                }else{
+                    accBTN.setVisibility(View.GONE);
+                }
+
             }
             if(tsk.getStatus().equalsIgnoreCase("Wykonane")){
+                accBTN.setVisibility(View.GONE);
+                rejBTN.setVisibility(View.GONE);
                 title.setText("Zadanie Wykonane");
             }
         }
@@ -154,18 +170,21 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         private boolean err = false;
         private String body;
         private Activity Activ;
+        private String status;
 
-        public AsyncChangeStatus(Activity _act,String _body){
+        public AsyncChangeStatus(Activity _act,String _body,String _status){
             Activ = _act;
             body = _body;
+            status = _status;
         }
 
         @Override
         protected void onPostExecute(String s) {
-            if(!err)
-                HelperMethods.CreateInfoAlert(Activ, "Success", "Udało się zmienić status zadania !!");
+            if (!err)
+                HelperMethods.CreateInfoAlert(Activ, "Sukces", "Udało się zmienić status zadania na " + status + " !!");
             else
-                HelperMethods.CreateErrorAlert(Activ,"Error","Nie Udało się zmienić status zadania !!");
+                HelperMethods.CreateErrorAlert(Activ,"Błąd","Nie Udało się zmienić statusu zadania !!");
+
             progressDialog.dismiss();
             super.onPostExecute(s);
         }

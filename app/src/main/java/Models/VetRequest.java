@@ -11,27 +11,67 @@ public class VetRequest implements Serializable{
 
     public static enum HealthProblemPriority{
 
-        Low,
-        Medium,
-        High,
-        VeryHigh,
-        Extreme,
+        Low{
+            @Override
+            public String toString() {
+                return "Niski";
+            }
+            public String EnglishVer(){
+                return "Low";
+            }
+        },
+        Medium{
+            @Override
+            public String toString() {
+                return "Średni";
+            }
+            public String EnglishVer(){
+                return "Medium";
+            }
+        },
+        High{
+            @Override
+            public String toString() {
+                return "Wysoki";
+            }
+            public String EnglishVer(){
+                return "High";
+            }
+        },
+        VeryHigh{
+            @Override
+            public String toString() {
+                return "Bardzo Wysoki";
+            }
+            public String EnglishVer(){
+                return "VeryHigh";
+            }
+        },
+        Extreme{
+            @Override
+            public String toString() {
+                return "Najwyższy";
+            }
+            public String EnglishVer(){
+                return "Extreme";
+            }
+        },
 
 
 
     }
 
-    public static enum HealthProblemPriorityPolish{
-
-        Niski,
-        Średni,
-        Wysoki,
-        Najwyższy,
-        Krytyczny,
-
-
-
-    }
+//    public static enum HealthProblemPriorityPolish{
+//
+//        Niski,
+//        Średni,
+//        Wysoki,
+//        Najwyższy,
+//        Krytyczny,
+//
+//
+//
+//    }
 
     public enum HealthProblemStatus
             {
@@ -50,7 +90,7 @@ public class VetRequest implements Serializable{
 
     private User reportedBy;
 
-    private Date createdate;
+    private Date createDate;
 
     private String noteAboutReport;
 
@@ -62,12 +102,12 @@ public class VetRequest implements Serializable{
 
     private String pictureUrl;
 
-    public VetRequest(String id, Pracownik employeeResponsible, Kon horse, User submittedBy, Date createdate, String noteAboutReport, String descriptionAboutPlaceWhereHorseWasInjured, String priority, String status,String pictureUrl) {
+    public VetRequest(String id, Pracownik employeeResponsible, Kon horse, User submittedBy, Date createDate, String noteAboutReport, String descriptionAboutPlaceWhereHorseWasInjured, String priority, String status,String pictureUrl) {
         this.id = id;
         this.veterinary = employeeResponsible;
         this.horse = horse;
         this.reportedBy = submittedBy;
-        this.createdate = createdate;
+        this.createDate = createDate;
         this.noteAboutReport = noteAboutReport;
         this.descriptionAboutPlaceWhereHorseWasInjured = descriptionAboutPlaceWhereHorseWasInjured;
         this.priority = priority;
@@ -109,12 +149,12 @@ public class VetRequest implements Serializable{
         this.reportedBy = submittedBy;
     }
 
-    public Date getcreatedate() {
-        return createdate;
+    public Date getcreateDate() {
+        return createDate;
     }
 
-    public void setcreatedate(Date requestDate) {
-        this.createdate = requestDate;
+    public void setcreateDate(Date requestDate) {
+        this.createDate = requestDate;
     }
 
     public String getnoteAboutReport() {

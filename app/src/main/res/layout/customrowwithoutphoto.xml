@@ -112,7 +112,7 @@
             android:id="@+id/Reject_Button_Task"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:background="@drawable/reject_button" />
+            android:background="@drawable/cancel_icon" />
     </LinearLayout>
      <View
     android:layout_width="wrap_content"
